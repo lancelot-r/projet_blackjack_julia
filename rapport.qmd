@@ -1,0 +1,39 @@
+# Projet Black Jack
+Noms : Lancelot Ravier, Danielle El khoury, Garance Malnoë
+Idée de projet : Jeu de blackjack codé en Julia avec une interface graphique et en R avec Shiny.
+
+# Déroulement d'une partie (sans les mises): 
+- 6 jeux de carte sont défini et mélangé (52 cartes, pas de joker)
+- Le joueur appuie sur un bouton pour démarrer la partie
+- Le programme distribue deux cartes retournées au joueur
+- Le programme distribue une carte retournée et une carte cachée a l'ordi
+- Les points sont calculés et affichés au joueur
+- Le joueur doit choisir entre laisser l'ordi jouer ou retirer une carte
+- *S'il décide de tirer une carte :
+    - Si le nombre de points est = 21, il a gagné et le jeu s'arrette
+    - Si le nombre de points est >21, il a perdu et le jeu s'arrette
+    - Si le nombre de points inferieur à 21, il peut décider de rejouer* ou de s'arretter**
+- **S'il décide de s'arretter, l'ordi va retourner la carte cachée :
+    - Si il tombe sur 21, l'ordi gagne
+    - Si son nombre de points est inferieur à 18, il retourne une carte
+    - Si son nombre de points est superieur à 18 (entre 18 et 21), il s'arrette
+    - Si son nombre de points est superieur à 21, le joueur gagne
+
+Points par carte : 
+    - 2 à 10 = valeur
+    - Valet, dame, roi = 10
+    - As =
+        - 11 si en ajoutant 11 à la main, le score <=21
+        - 1 si en ajoutant 11, le score dépasse 21
+
+# Structure du projet en Julia :
+- Fichier main.jl : fonction générale avec les boucles de jeu.
+- Fichier carte.jl : Pour définir la classe carte (attributs : String nom, Int valeur, image interface graphique)
+- Fichier main_cartes.jl : Pour définir la classe main_carte (attributs : list de carte. Méthode : Calculer la valeur de la main)
+- Fichier deck.jl : Pour définir la classe deck (attributs : list de carte. Méthode : distribuer une carte (choisir une carte au hasard, la mettre dans la main de quelquu'un et l'enlever dans la liste de carte du deck))  Note : 6x52 cartes pour 1 deck de base.
+- Fichier jeu.jl : Pour définir la classe de jeu (attributs : deck, deux main_cartes (ordi + joueur))
+
+# Idées supplémentaires :
+    - Bet
+    - Plusieurs joueurs
+    - Timer

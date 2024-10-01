@@ -37,3 +37,13 @@ Points par carte :
     - Bet
     - Plusieurs joueurs
     - Timer
+
+Jeudi 26/09 : Choix du sujet, écriture des règles et idées supplémentaires et définition de la structure du projet en Julia (classes). Création des fichiers pour les différentes classes et tentative (infructueuse) de définition d'une classe en Julia avec la classe carte.
+
+Mardi 01/10 : Mise en commun de ce qu'a cherché Lancelot durant le weekend : fonction de création de carte, de deck de 52 cartes, de deck de blackjack et mélanger un deck. Pour l'affichage : dash.jl, maki.jl, pluto.jl -> pour faire du html / javascript et avoir quelque chose d'intéractif.
+Notion de réactivité
+
+Notion de simple vs multiple dispatching expliqué par Remy.
+
+
+

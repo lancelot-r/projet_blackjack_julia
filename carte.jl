@@ -49,8 +49,15 @@ for card in play_deck[1:10]
     display(image)
 end
 
-for card in play_deck[1:10]
-    println(card[1], " de ", card[2], " - Valeur: ", card[3])
-    image = load(card[4])
-    display(image)
+#Old code
+struct Carte
+    suit::String
+    rank::String
 end
+
+function valeur(c::Carte)
+    return dico_card_value[c.rank]
+end
+
+carte_ex = Carte("hearts","king")
+print(valeur(carte_ex))

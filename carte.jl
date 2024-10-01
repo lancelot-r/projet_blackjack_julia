@@ -1,4 +1,3 @@
-
 using Random
 using Images
 
@@ -17,8 +16,8 @@ card_value = Dict(
     "9" => 9,
     "10" => 10,
     "jack" => 10,
-    "dame" => 10,
-    "roi" => 10
+    "queen" => 10,
+    "king" => 10
 )
 
 function create_deck()
@@ -26,7 +25,7 @@ function create_deck()
     for suit in suits
         for rank in ranks
             image_path = "images/$(rank)_of_$(suit).png"
-            push!(deck, (rank, suit, card_value[rank]))
+            push!(deck, (rank, suit, card_value[rank], image_path))
         end
     end
     return deck
@@ -45,5 +44,7 @@ blackjack_deck = create_blackjack_deck()
 play_deck = shuffle!(blackjack_deck)
 
 for card in play_deck[1:10]
-    println(card)
+    println(card[1], " de ", card[2], " - Valeur: ", card[3])
+    image = load(card[4])
+    display(image)
 end

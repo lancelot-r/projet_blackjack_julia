@@ -1,4 +1,3 @@
-
 using Random
 using Images
 
@@ -26,7 +25,7 @@ function create_deck()
     for suit in suits
         for rank in ranks
             image_path = "images/$(rank)_of_$(suit).png"
-            push!(deck, (rank, suit, card_value[rank]))
+            push!(deck, (rank, suit, card_value[rank], image_path))
         end
     end
     return deck
@@ -45,20 +44,13 @@ blackjack_deck = create_blackjack_deck()
 play_deck = shuffle!(blackjack_deck)
 
 for card in play_deck[1:10]
-    println(card)
+    println(card[1], " de ", card[2], " - Valeur: ", card[3])
+    image = load(card[4])
+    display(image)
 end
 
-
-#Old code
-struct Carte
-    suit::String
-    rank::String
+for card in play_deck[1:10]
+    println(card[1], " de ", card[2], " - Valeur: ", card[3])
+    image = load(card[4])
+    display(image)
 end
-
-function valeur(c::Carte)
-    return dico_card_value[c.rank]
-end
-
-carte_ex = Carte("hearts","king")
-print(valeur(carte_ex))
-  

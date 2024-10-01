@@ -5,7 +5,7 @@ using Images
 suits = ["clubs","spades","hearts","diamonds"]
 ranks = ["ace","2","3","4","5","6","7","8","9","10","jack","queen","king"]
 
-card_value = Dict(
+dico_card_value = Dict(
     "ace" => 1,
     "2" => 2,
     "3" => 3,
@@ -17,8 +17,8 @@ card_value = Dict(
     "9" => 9,
     "10" => 10,
     "jack" => 10,
-    "dame" => 10,
-    "roi" => 10
+    "queen" => 10,
+    "king" => 10
 )
 
 function create_deck()
@@ -47,3 +47,18 @@ play_deck = shuffle!(blackjack_deck)
 for card in play_deck[1:10]
     println(card)
 end
+
+
+#Old code
+struct Carte
+    suit::String
+    rank::String
+end
+
+function valeur(c::Carte)
+    return dico_card_value[c.rank]
+end
+
+carte_ex = Carte("hearts","king")
+print(valeur(carte_ex))
+  

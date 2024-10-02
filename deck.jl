@@ -1,31 +1,24 @@
 # On appelle le fichier carte.jl
 include("carte.jl")
+using Random
+import Random.shuffle
 
 # On crée une structure mutable de deck qui est composée de cartes (vecteur de Carte)
 mutable struct Deck
     cartes::Vector{Carte}
 end
 
-function affiche_cartes(d::Deck)
+# Fonction de test pour afficher la valeur (numerique) des cartes d'un deck.
+function affiche_valeur_cartes(d::Deck)
     liste_cartes = d.cartes
     for carte in liste_cartes
         println(valeur(carte))
     end
 end
 
-function concatene_decks(decks::Vector{Deck})
-    new_list_cards = []
-    for deck in decks
-        for carte in deck.cartes
-            push!(new_list_cards,carte)
-        end
-    end
-    return Deck(new_list_cards)
-end
-
+# Creation d'un jeu de 52 cartes
 suits = ["clubs","spades","hearts","diamonds"]
 ranks = ["ace","2","3","4","5","6","7","8","9","10","jack","queen","king"]
-
 
 function create_deck_52()
     liste_cartes = []
@@ -38,33 +31,67 @@ function create_deck_52()
     return Deck(liste_cartes)
 end
 
-jeu1 = create_deck_52()
-affiche_cartes(jeu1)
-jeu2 = create_deck_52()
-jeu3 = concatene_decks([jeu1,jeu2])
-affiche_cartes(jeu3)
-
-function create_blackjack_deck(num_decks=6)
-    
+# Fonction de concatenation de decks
+function concatene_decks(decks::Vector{Deck})
+    new_list_cards = []
+    for deck in decks
+        for carte in deck.cartes
+            push!(new_list_cards,carte)
+        end
+    end
+    return Deck(new_list_cards)
 end
 
-blackjack_deck = create_blackjack_deck()
+jeu1 = create_deck_52()
+length(jeu1.cartes)
+jeuc = concatene_decks([jeu1,jeu1])
+length(jeuc.cartes)
 
-play_deck = shuffle!(blackjack_deck)
+# Fonction de creation d'un jeu de blackjack
+# Amelioration : + rapide de faire une version modifiée de creation_deck_52 plutôt que de l'appeler ?
+function create_blackjack_deck(num_decks)
+    # On récupère un deck de 52 cartes.
+    deck_52 = create_deck_52()
 
+    # On crée une liste où on va mettre num_decks decks de 52 cartes pour les concatener.
+    vect_deck_52 = [deck_52]
+    for i in range(1,num_decks-1)
+        append!(vect_deck_52,[deck_52])
+    end
+    res = concatene_decks(vect_deck_52)
+    return res
+end
+
+blackjack_deck = create_blackjack_deck(6)
+
+# Fonction pour melanger un deck un modifiant l'objet
+# On surcharge / etend la fonction shuffle deja existante.
+# Moins couteux en memoire vu qu'on modifie juste un objet déjà existant mais du coup on perd le jeu de base.
+function shuffle!(deck::Deck) 
+    Random.shuffle!(deck.cartes) 
+    return deck
+end
+
+# Fonction pour creer un nouveau deck avec les memes cartes mais melangees
+# On surcharge / etend la fonction shuffle! deja existante.
+# Plus couteux en memoire vu qu'on aura 2 objects avec les memes cartes mais permet de garder le jeu de base intact.
+function shuffle(deck::Deck)
+    cards_new_order = Random.shuffle(deck.cartes)
+    return Deck(cards_new_order)
+end
+
+# /!\ 
+#blackjack_deck = create_blackjack_deck(6)
+#play_deck = shuffle(blackjack_deck)
+# -> blackjack_deck est pas modifie.
+# C'est different de :
+#blackjack_deck = create_blackjack_deck(6)
+#play_deck = shuffle!(blackjack_deck)
+# -> blackjeack_deck est modifie.
+
+# ------------ Trucs de Lancelot avec l'affichage des images / Ne va pas marcher ------------------------------------
 for card in play_deck[1:10]
     println(card[1], " de ", card[2], " - Valeur: ", card[3])
     image = load(card[4])
     display(image)
 end
-
-# Test de Gary
-
-carte_ex1 = Carte("hearts","king")
-carte_ex2 = Carte("spades","jack")
-
-println(valeur(carte_ex1))
-println(valeur(carte_ex2))
-
-deck1 = deck([carte_ex1,carte_ex2])
-affiche_cartes(deck1)

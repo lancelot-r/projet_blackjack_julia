@@ -1,5 +1,8 @@
+include(cartes.jl)
+include(deck.jl)
+
 dico_card_value = Dict(
-    "ace" => 1,
+    "ace" => 1  ,
     "2" => 2,
     "3" => 3,
     "4" => 4,
@@ -13,3 +16,4 @@ dico_card_value = Dict(
     "queen" => 10,
     "king" => 10
 )
+

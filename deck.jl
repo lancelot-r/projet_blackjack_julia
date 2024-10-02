@@ -89,6 +89,49 @@ end
 #play_deck = shuffle!(blackjack_deck)
 # -> blackjeack_deck est modifie.
 
+# Fonction de calul d'une main / d'un deck
+function valeur_deck(d::Deck)
+    res = 0
+    count_ace = 0
+    for card in d.cartes
+        if (card.rank != "ace")
+            res += dico_card_value[card.rank]
+        else
+            count_ace +=1
+        end
+    end
+
+    # On regarde s'il y a des as :
+    if (count_ace != 0)
+        # On essaye d'ajouter le + de 11 possible sans que le total ne depasse 21
+        while((res + 11 + count_ace-1 <= 21) & count_ace > 0)
+            # On ajoute 11 au total
+            res += 11
+            # On enleve l'as que l'on vient d'ajouter au compteur.
+            count_ace += -1
+        end
+
+        # On ajoute les as restant qui valent donc 1.
+        res += count_ace
+    end
+    return res  
+end
+
+function take_a_card(pile::Deck,player_hand::Deck)
+    new_card = popfirst!(pile.cartes)
+    append!(player_hand.cartes,[new_card])
+    return
+end
+
+pile_test = create_deck_52()
+main_joueur_test = Deck([Carte("hearts","jack")])
+println(valeur_deck(main_joueur_test))
+take_a_card(pile_test,main_joueur_test)
+println(valeur_deck(main_joueur_test))
+
+
+
+
 # ------------ Trucs de Lancelot avec l'affichage des images / Ne va pas marcher ------------------------------------
 for card in play_deck[1:10]
     println(card[1], " de ", card[2], " - Valeur: ", card[3])

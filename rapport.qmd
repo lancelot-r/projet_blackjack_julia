@@ -40,10 +40,20 @@ Points par carte :
 
 Jeudi 26/09 : Choix du sujet, écriture des règles et idées supplémentaires et définition de la structure du projet en Julia (classes). Création des fichiers pour les différentes classes et tentative (infructueuse) de définition d'une classe en Julia avec la classe carte.
 
-Mardi 01/10 : Mise en commun de ce qu'a cherché Lancelot durant le weekend : fonction de création de carte, de deck de 52 cartes, de deck de blackjack et mélanger un deck. Pour l'affichage : dash.jl, maki.jl, pluto.jl -> pour faire du html / javascript et avoir quelque chose d'intéractif.
-Notion de réactivité
+Mardi 01/10 : 
+Mise en commun de ce qu'a cherché Lancelot durant le weekend : fonction de création de carte, de deck de 52 cartes, de deck de blackjack et mélanger un deck. 
+Reflexions sur l'affichage : dash.jl, maki.jl, pluto.jl -> pour faire du html / javascript et avoir quelque chose d'intéractif. Question en cours sur les notions de simple vs multiple dispatching expliqué par Remy.
+Galères avec github : on choisit de partir sur un fonctionnement en branches ou en fork pour séparer notre travail.
 
-Notion de simple vs multiple dispatching expliqué par Remy.
+Mercredi 02/10 : Ré-adaptation des fonction de création de deck de blackjack et de mélange de deck. On a créé 2 fonctions shuffle et shuffle!  dans le but d'éviter de devoir recréer le deck de blackjack à chaque partie (dans une session), seulement au début de la session ce qui parait plus optimisé. 
+Problématique pour surcharger / étendre les fonction shuffle(!) déjà existantes dans la librairie Random, on l'importe explicitement.
+Creation des fonctions de calculs de la valeur d'une main et de tirer une carte.
+
+Trucs à faire :
+- Regarder comment on fait de la documentation.
+- Choisir anglais ou francais et s'y tenir
+- Mettre les images.
+
 
 
 

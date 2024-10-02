@@ -23,7 +23,8 @@ function jeu()
     hand_value_player = valeur_deck(player_hand)
     println("Current player hand value :")
     println(hand_value_player)
-    while (hand_value_player < 21)
+    refus = false
+    while ((hand_value_player < 21) & refus == false)
         println("Do you want to take a new card ? Press Y or N.")
         input = ""
         while ((input != "Y") & (input != "y") & (input != "N") & (input != "n"))
@@ -31,12 +32,15 @@ function jeu()
         end
 
         if ((input == "Y") || (input == "y"))
+            println("You want a new card !")
             take_a_card(blackjack_deck,player_hand)
             hand_value_player = valeur_deck(player_hand)
             println("Current player hand value :")
             println(hand_value_player)
+        elseif ((input == "N") || (input == "n"))
+            println("Ok, no new card...")
+            refus = true
         end
-        
     end
     
 
@@ -54,7 +58,7 @@ function jeu()
     # Affichage fin de partie
     if ((hand_value_player <= 21) & ((hand_value_dealer < hand_value_player) | hand_value_dealer > 21))
         println("You won !")
-    elseif ((hand_value_player <= 21) & (hand_value_dealer <= 21))
+    elseif ((hand_value_player <= 21) & (hand_value_dealer <= 21) & (hand_value_dealer > hand))
         println("The dealer won...")
     else
         println("Draw.")

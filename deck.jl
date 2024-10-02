@@ -69,7 +69,7 @@ blackjack_deck = create_blackjack_deck(6)
 # Moins couteux en memoire vu qu'on modifie juste un objet déjà existant mais du coup on perd le jeu de base.
 function shuffle!(deck::Deck) 
     Random.shuffle!(deck.cartes) 
-    return deck
+    return
 end
 
 # Fonction pour creer un nouveau deck avec les memes cartes mais melangees
@@ -88,6 +88,10 @@ end
 #blackjack_deck = create_blackjack_deck(6)
 #play_deck = shuffle!(blackjack_deck)
 # -> blackjeack_deck est modifie.
+
+function create_empty_hand()
+    return Deck([])
+end
 
 # Fonction de calul d'une main / d'un deck
 function valeur_deck(d::Deck)
@@ -133,8 +137,9 @@ println(valeur_deck(main_joueur_test))
 
 
 # ------------ Trucs de Lancelot avec l'affichage des images / Ne va pas marcher ------------------------------------
-for card in play_deck[1:10]
-    println(card[1], " de ", card[2], " - Valeur: ", card[3])
-    image = load(card[4])
-    display(image)
-end
+
+#for card in play_deck[1:10]
+#    println(card[1], " de ", card[2], " - Valeur: ", card[3])
+#    image = load(card[4])
+#    display(image)
+#end

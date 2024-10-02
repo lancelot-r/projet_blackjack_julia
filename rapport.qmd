@@ -48,6 +48,7 @@ Galères avec github : on choisit de partir sur un fonctionnement en branches ou
 Mercredi 02/10 : Ré-adaptation des fonction de création de deck de blackjack et de mélange de deck. On a créé 2 fonctions shuffle et shuffle!  dans le but d'éviter de devoir recréer le deck de blackjack à chaque partie (dans une session), seulement au début de la session ce qui parait plus optimisé. 
 Problématique pour surcharger / étendre les fonction shuffle(!) déjà existantes dans la librairie Random, on l'importe explicitement.
 Creation des fonctions de calculs de la valeur d'une main et de tirer une carte.
+Première boucle de jeu à 1 joueur basique. On a appris comment demander à un utilisateur de rentrer quelque chose dans le terminal.
 
 Trucs à faire :
 - Regarder comment on fait de la documentation.

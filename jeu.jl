@@ -15,6 +15,12 @@ function jeu()
     take_a_card(blackjack_deck,dealer_hand)
     take_a_card(blackjack_deck,player_hand)
 
+    # On affiche la main du dealer
+    display_hand(dealer_hand,"dealer")
+    hand_value_dealer = hand_value(dealer_hand)
+    println("Current dealer hand value :")
+    println(hand_value_dealer)
+    
     # Boucle de jeu pour le joueur
     hand_value_player = hand_value(player_hand)
     display_hand(player_hand,"player")

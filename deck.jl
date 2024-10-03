@@ -1,7 +1,7 @@
 # On appelle le fichier carte.jl
 include("carte.jl")
 using Random
-import Random.shuffle
+import Random.shuffle!
 
 # On crée une structure mutable de deck qui est composée de cartes (vecteur de Carte)
 mutable struct Deck

@@ -118,9 +118,6 @@ function hand_value(hand::Deck)
     return value
 end
 
-hand1 = Deck([Carte("hearts","king"),Carte("clubs","ace")])
-hand_value(hand1)
-
 
 function take_a_card(pile::Deck,player_hand::Deck)
     new_card = popfirst!(pile.cartes)
@@ -128,11 +125,16 @@ function take_a_card(pile::Deck,player_hand::Deck)
     return
 end
 
-pile_test = create_deck_52()
-main_joueur_test = Deck([Carte("hearts","jack")])
-println(hand_value(main_joueur_test))
-take_a_card(pile_test,main_joueur_test)
-println(hand_value(main_joueur_test))
+function display_hand(hand::Deck)
+    print("The hand : ")
+    for card in hand.cartes
+        print(card.rank)
+        print(" of ")
+        print(card.suit)
+        print(", ")
+    end
+    println("")
+end
 
 
 

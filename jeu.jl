@@ -54,7 +54,7 @@ function jeu()
     # Affichage fin de partie
     if ((hand_value_player <= 21) & ((hand_value_dealer < hand_value_player) | hand_value_dealer > 21))
         println("You won !")
-    elseif ((hand_value_player <= 21) & (hand_value_dealer <= 21) & (hand_value_dealer > hand))
+    elseif ((hand_value_player <= 21) & (hand_value_dealer <= 21) & (hand_value_dealer > hand_value_player))
         println("The dealer won...")
     else
         println("Draw.")

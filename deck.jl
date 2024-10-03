@@ -125,8 +125,8 @@ function take_a_card(pile::Deck,player_hand::Deck)
     return
 end
 
-function display_hand(hand::Deck)
-    print("The hand : ")
+function display_hand(hand::Deck,name::String)
+    print("The " * name * " hand : ")
     for card in hand.cartes
         print(card.rank)
         print(" of ")

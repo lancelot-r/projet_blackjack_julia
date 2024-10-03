@@ -17,7 +17,7 @@ function jeu()
 
     # Boucle de jeu pour le joueur
     hand_value_player = hand_value(player_hand)
-    display_hand(player_hand)
+    display_hand(player_hand,"player")
     println("Current player hand value :")
     println(hand_value_player)
     refus = false
@@ -31,13 +31,14 @@ function jeu()
         if ((input == "Y") || (input == "y"))
             println("You want a new card !")
             take_a_card(blackjack_deck,player_hand)
-            display_hand(player_hand)
+            display_hand(player_hand,"player")
             hand_value_player = hand_value(player_hand)
             println("Current player hand value :")
             println(hand_value_player)
 
             if (hand_value_player > 21)
-                return (You went above 21 ! You lost.)
+                print("You went above 21 ! You lost.")
+                return
             end
         elseif ((input == "N") || (input == "n"))
             println("Ok, no new card...")
@@ -47,13 +48,13 @@ function jeu()
     
 
     # Résolution pour le dealer : il tire jusqu'à atteindre un minimum de 17
-    display_hand(dealer_hand)
+    display_hand(dealer_hand,"dealer")
     hand_value_dealer = hand_value(dealer_hand)
     println("Current dealer hand value :")
     println(hand_value_dealer)
     while (hand_value_dealer < 17)
         take_a_card(blackjack_deck,dealer_hand)
-        display_hand(dealer_hand)
+        display_hand(dealer_hand,"dealer")
         hand_value_dealer = hand_value(dealer_hand)
         println("Current dealer hand value :")
         println(hand_value_dealer)

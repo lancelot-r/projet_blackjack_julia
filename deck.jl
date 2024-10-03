@@ -42,11 +42,6 @@ function concatene_decks(decks::Vector{Deck})
     return Deck(new_list_cards)
 end
 
-jeu1 = create_deck_52()
-length(jeu1.cartes)
-jeuc = concatene_decks([jeu1,jeu1])
-length(jeuc.cartes)
-
 # Fonction de creation d'un jeu de blackjack
 # Amelioration : + rapide de faire une version modifiée de creation_deck_52 plutôt que de l'appeler ?
 function create_blackjack_deck(num_decks)
@@ -61,8 +56,6 @@ function create_blackjack_deck(num_decks)
     res = concatene_decks(vect_deck_52)
     return res
 end
-
-blackjack_deck = create_blackjack_deck(6)
 
 # Fonction pour melanger un deck un modifiant l'objet
 # On surcharge / etend la fonction shuffle deja existante.

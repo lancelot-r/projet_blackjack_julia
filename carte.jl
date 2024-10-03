@@ -26,7 +26,3 @@ end
 function valeur(c::Carte)
     return dico_card_value[c.rank]
 end
-
-carte_ex = Carte("hearts","king")
-print(valeur(carte_ex))
-

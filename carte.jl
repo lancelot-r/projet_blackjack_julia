@@ -29,3 +29,4 @@ end
 
 carte_ex = Carte("hearts","king")
 print(valeur(carte_ex))
+

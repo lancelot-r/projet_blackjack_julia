@@ -93,33 +93,34 @@ function create_empty_hand()
     return Deck([])
 end
 
-# Fonction de calul d'une main / d'un deck
-function valeur_deck(d::Deck)
-    res = 0
-    count_ace = 0
-    for card in d.cartes
-        if (card.rank != "ace")
-            res += dico_card_value[card.rank]
+
+# Fonction de calcul de la valeur d'une main / d'un deck.
+function hand_value(hand::Deck)
+    value = 0
+    aces = 0
+#pour donner a chaque carte sa valeur définie
+    for card in hand.cartes
+        rank = card.rank
+        if rank == "ace" #pour le cas spécial ace
+            value += 11
+            aces += 1
         else
-            count_ace +=1
+            value += dico_card_value[rank]
         end
     end
 
-    # On regarde s'il y a des as :
-    if (count_ace != 0)
-        # On essaye d'ajouter le + de 11 possible sans que le total ne depasse 21
-        while((res + 11 + count_ace-1 <= 21) & count_ace > 0)
-            # On ajoute 11 au total
-            res += 11
-            # On enleve l'as que l'on vient d'ajouter au compteur.
-            count_ace += -1
-        end
-
-        # On ajoute les as restant qui valent donc 1.
-        res += count_ace
+    # Ajuster ace quand la main >21
+    while value > 21 && aces > 0
+        value -= 10
+        aces -= 1
     end
-    return res  
+
+    return value
 end
+
+hand1 = Deck([Carte("hearts","king"),Carte("clubs","ace")])
+hand_value(hand1)
+
 
 function take_a_card(pile::Deck,player_hand::Deck)
     new_card = popfirst!(pile.cartes)
@@ -129,9 +130,9 @@ end
 
 pile_test = create_deck_52()
 main_joueur_test = Deck([Carte("hearts","jack")])
-println(valeur_deck(main_joueur_test))
+println(hand_value(main_joueur_test))
 take_a_card(pile_test,main_joueur_test)
-println(valeur_deck(main_joueur_test))
+println(hand_value(main_joueur_test))
 
 
 

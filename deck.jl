@@ -150,3 +150,4 @@ end
 
 export Deck,take_a_card, display_hand, create_empty_hand, hand_value, shuffle, shuffle!, create_deck_52, affiche_valeur_cartes, concatene_decks, create_blackjack_deck 
 end
+@bind new_game_button PlutoUI.Button("New Game")

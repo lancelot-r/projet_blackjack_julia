@@ -53,10 +53,19 @@ Choix d'avoir une seule struct Deck à la fois pour le paquet de carte et pour l
 Jeudi 03/10:
 Mise en commun de ce que chacun a fait Mercredi. On a réparé et amélioré les boucles d'affichage de la valeur d'une main et de la boucle de jeu (problèmes sur les conditions de fin de jeu) et création d'une fonction d'affichage de la main du joueur (les cartes). On a fait plusieurs parties pour tester (et repérer les erreurs). On s'est rendu compte qu'il y avait une version amércaine et une version européenne des règles, on décide de partir sur la version européenne pour le moment car la règle supplémentaire des américains est basée sur la notion de pari / bet que l'on a pas encore implémentée. On a appris à faire concaténation de String avec s1 * s2.
 
+Mardi 08/10 :
+On appris à créer des pull request et résoudre les conflits sur GitHub à partir du travail qu'avait fait Danielle durant le weekend. Création de module pour les appeler dans pluto. Création du pluto avec les fonctions dedans. Vizagrams -> Création de svg qui s'affichents dans pluto.
+
 Trucs à faire :
 - Regarder comment on fait de la documentation en Julia.
 - Choisir anglais ou francais et s'y tenir -> Plutôt anglais ?
-- Mettre les images.
+Gary :
+- Fonction pour afficher les images de cartes + score
+- Coder le blackjack en Python
+Danielle :
+- Coder le blackjack en R
+Lancelot :
+- Interface graphique pluto pour le jeu en Julia
 
 
 

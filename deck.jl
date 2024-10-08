@@ -9,15 +9,8 @@ import Random.shuffle!
 # On crée une structure mutable de deck qui est composée de cartes (vecteur de Carte)
 mutable struct Deck
     cartes::Vector{CardDefinitions.Carte}
-# On appelle le fichier carte.jl
-include("carte.jl")
-using Random
-import Random.shuffle!
-
-# On crée une structure mutable de deck qui est composée de cartes (vecteur de Carte)
-mutable struct Deck
-    cartes::Vector{Carte}
 end
+
 
 # Fonction de test pour afficher la valeur (numerique) des cartes d'un deck.
 function affiche_valeur_cartes(d::Deck)
@@ -29,7 +22,8 @@ end
 
 function create_deck_52()
     liste_cartes = Vector{CardDefinitions.Carte}()
-=======
+end
+
 # Creation d'un jeu de 52 cartes
 suits = ["clubs","spades","hearts","diamonds"]
 ranks = ["ace","2","3","4","5","6","7","8","9","10","jack","queen","king"]
@@ -154,14 +148,5 @@ function display_hand(hand::Deck,name::String)
     println("")
 end
 
-export Deck,take_a_card, display_hand, create_empty_hand, hand_value, shuffle, shuffle!, create_deck_52, affiche_valeur_cartes, concatene_decks, create_blackjack_deck
-
+export Deck,take_a_card, display_hand, create_empty_hand, hand_value, shuffle, shuffle!, create_deck_52, affiche_valeur_cartes, concatene_decks, create_blackjack_deck 
 end
-
-# ------------ Trucs de Lancelot avec l'affichage des images / Ne va pas marcher ------------------------------------
-
-#for card in play_deck[1:10]
-#    println(card[1], " de ", card[2], " - Valeur: ", card[3])
-#    image = load(card[4])
-#    display(image)
-#end

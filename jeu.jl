@@ -1,11 +1,18 @@
+module GameDefinition
+
 include("carte.jl")
+using .CardDefinitions
 include("deck.jl")
+using .DeckDefinitions
+# import Pluto; Pluto.run()
+
 function jeu()
     # Instancier un deck de black jack
-    blackjack_deck = create_blackjack_deck(6)
+    blackjack_deck = DeckDefinitions.create_blackjack_deck(6)
     # Le melanger
     shuffle!(blackjack_deck)
     
+
     # Instancier une main pour le dealer et le joueur
     player_hand = create_empty_hand()
     dealer_hand = create_empty_hand()
@@ -30,11 +37,13 @@ function jeu()
     while ((hand_value_player < 21) && !refus)
         println("Do you want to take a new card ? Press Y or N.")
         input = ""
-        while ((input != "Y") && (input != "y") && (input != "N") && (input != "n"))
+    
+        while !(input in ["Y", "y", "N", "n"])
             input = readline()
         end
 
-        if ((input == "Y") || (input == "y"))
+        if input in ["Y", "y"]
+
             println("You want a new card !")
             take_a_card(blackjack_deck,player_hand)
             display_hand(player_hand,"player")
@@ -46,7 +55,8 @@ function jeu()
                 print("You went above 21 ! You lost.")
                 return
             end
-        elseif ((input == "N") || (input == "n"))
+        elseif input in ["N", "n"]
+
             println("Ok, no new card...")
             refus = true
         end
@@ -76,4 +86,5 @@ function jeu()
     end
 end
 
-jeu()f
+
+end

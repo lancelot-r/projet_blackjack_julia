@@ -1,12 +1,16 @@
+module DeckDefinitions
 # On appelle le fichier carte.jl
 include("carte.jl")
+using .CardDefinitions
 using Random
 import Random.shuffle!
 
+
 # On crée une structure mutable de deck qui est composée de cartes (vecteur de Carte)
 mutable struct Deck
-    cartes::Vector{Carte}
+    cartes::Vector{CardDefinitions.Carte}
 end
+
 
 # Fonction de test pour afficher la valeur (numerique) des cartes d'un deck.
 function affiche_valeur_cartes(d::Deck)
@@ -14,6 +18,10 @@ function affiche_valeur_cartes(d::Deck)
     for carte in liste_cartes
         println(valeur(carte))
     end
+end
+
+function create_deck_52()
+    liste_cartes = Vector{CardDefinitions.Carte}()
 end
 
 # Creation d'un jeu de 52 cartes
@@ -28,19 +36,26 @@ function create_deck_52()
             push!(liste_cartes, Carte(suit,rank))
         end
     end
-    return Deck(liste_cartes)
+    return DeckDefinitions.Deck(liste_cartes)
 end
 
 # Fonction de concatenation de decks
 function concatene_decks(decks::Vector{Deck})
-    new_list_cards = []
+    new_list_cards = Vector{CardDefinitions.Carte}()
     for deck in decks
         for carte in deck.cartes
             push!(new_list_cards,carte)
         end
     end
-    return Deck(new_list_cards)
+
+    return DeckDefinitions.Deck(new_list_cards)
 end
+
+jeu1 = create_deck_52()
+length(jeu1.cartes)
+jeuc = concatene_decks([jeu1,jeu1])
+length(jeuc.cartes)
+
 
 # Fonction de creation d'un jeu de blackjack
 # Amelioration : + rapide de faire une version modifiée de creation_deck_52 plutôt que de l'appeler ?
@@ -57,6 +72,8 @@ function create_blackjack_deck(num_decks)
     return res
 end
 
+blackjack_deck = create_blackjack_deck(6)
+
 # Fonction pour melanger un deck un modifiant l'objet
 # On surcharge / etend la fonction shuffle deja existante.
 # Moins couteux en memoire vu qu'on modifie juste un objet déjà existant mais du coup on perd le jeu de base.
@@ -70,7 +87,8 @@ end
 # Plus couteux en memoire vu qu'on aura 2 objects avec les memes cartes mais permet de garder le jeu de base intact.
 function shuffle(deck::Deck)
     cards_new_order = Random.shuffle(deck.cartes)
-    return Deck(cards_new_order)
+    return DeckDefinitions.Deck(cards_new_order)
+
 end
 
 # /!\ 
@@ -83,7 +101,8 @@ end
 # -> blackjeack_deck est modifie.
 
 function create_empty_hand()
-    return Deck([])
+    return DeckDefinitions.Deck([])
+
 end
 
 
@@ -129,13 +148,5 @@ function display_hand(hand::Deck,name::String)
     println("")
 end
 
-
-
-
-# ------------ Trucs de Lancelot avec l'affichage des images / Ne va pas marcher ------------------------------------
-
-#for card in play_deck[1:10]
-#    println(card[1], " de ", card[2], " - Valeur: ", card[3])
-#    image = load(card[4])
-#    display(image)
-#end
+export Deck,take_a_card, display_hand, create_empty_hand, hand_value, shuffle, shuffle!, create_deck_52, affiche_valeur_cartes, concatene_decks, create_blackjack_deck 
+end

@@ -1,8 +1,11 @@
-using Random
-suits = ["clubs","spades","hearts","diamonds"]
-ranks = ["ace","2","3","4","5","6","7","8","9","10","jack","queen","king"]
 
-dico_card_value = Dict(
+module CardDefinitions
+
+using Random
+const suits = ["clubs","spades","hearts","diamonds"]
+const ranks = ["ace","2","3","4","5","6","7","8","9","10","jack","queen","king"]
+
+const dico_card_value = Dict(
     "ace" => 1,
     "2" => 2,
     "3" => 3,
@@ -17,6 +20,7 @@ dico_card_value = Dict(
     "queen" => 10,
     "king" => 10
 )
+
 #Old code
 struct Carte
     suit::String
@@ -27,3 +31,13 @@ end
 function valeur(c::Carte)
     return dico_card_value[c.rank]
 end
+
+
+carte_ex = Carte("hearts","king")
+print(valeur(carte_ex))
+
+export Carte, valeur, suits, ranks, dico_card_value
+
+end
+
+

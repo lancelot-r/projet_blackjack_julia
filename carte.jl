@@ -1,3 +1,4 @@
+
 module CardDefinitions
 
 using Random
@@ -19,15 +20,18 @@ const dico_card_value = Dict(
     "queen" => 10,
     "king" => 10
 )
+
 #Old code
 struct Carte
     suit::String
     rank::String
+
 end
 
 function valeur(c::Carte)
     return dico_card_value[c.rank]
 end
+
 
 carte_ex = Carte("hearts","king")
 print(valeur(carte_ex))
@@ -35,3 +39,5 @@ print(valeur(carte_ex))
 export Carte, valeur, suits, ranks, dico_card_value
 
 end
+
+

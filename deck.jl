@@ -9,6 +9,14 @@ import Random.shuffle!
 # On crée une structure mutable de deck qui est composée de cartes (vecteur de Carte)
 mutable struct Deck
     cartes::Vector{CardDefinitions.Carte}
+# On appelle le fichier carte.jl
+include("carte.jl")
+using Random
+import Random.shuffle!
+
+# On crée une structure mutable de deck qui est composée de cartes (vecteur de Carte)
+mutable struct Deck
+    cartes::Vector{Carte}
 end
 
 # Fonction de test pour afficher la valeur (numerique) des cartes d'un deck.
@@ -21,6 +29,13 @@ end
 
 function create_deck_52()
     liste_cartes = Vector{CardDefinitions.Carte}()
+=======
+# Creation d'un jeu de 52 cartes
+suits = ["clubs","spades","hearts","diamonds"]
+ranks = ["ace","2","3","4","5","6","7","8","9","10","jack","queen","king"]
+
+function create_deck_52()
+    liste_cartes = []
     for suit in suits
         for rank in ranks
             #image_path = "images/$(rank)_of_$(suit).png"
@@ -38,6 +53,7 @@ function concatene_decks(decks::Vector{Deck})
             push!(new_list_cards,carte)
         end
     end
+
     return DeckDefinitions.Deck(new_list_cards)
 end
 
@@ -45,6 +61,7 @@ jeu1 = create_deck_52()
 length(jeu1.cartes)
 jeuc = concatene_decks([jeu1,jeu1])
 length(jeuc.cartes)
+
 
 # Fonction de creation d'un jeu de blackjack
 # Amelioration : + rapide de faire une version modifiée de creation_deck_52 plutôt que de l'appeler ?
@@ -77,6 +94,7 @@ end
 function shuffle(deck::Deck)
     cards_new_order = Random.shuffle(deck.cartes)
     return DeckDefinitions.Deck(cards_new_order)
+
 end
 
 # /!\ 
@@ -90,6 +108,7 @@ end
 
 function create_empty_hand()
     return DeckDefinitions.Deck([])
+
 end
 
 

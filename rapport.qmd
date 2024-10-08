@@ -29,7 +29,6 @@ Points par carte :
 # Structure du projet en Julia :
 - Fichier main.jl : fonction générale avec les boucles de jeu.
 - Fichier carte.jl : Pour définir la classe carte (attributs : String nom, Int valeur, image interface graphique)
-- Fichier main_cartes.jl : Pour définir la classe main_carte (attributs : list de carte. Méthode : Calculer la valeur de la main)
 - Fichier deck.jl : Pour définir la classe deck (attributs : list de carte. Méthode : distribuer une carte (choisir une carte au hasard, la mettre dans la main de quelquu'un et l'enlever dans la liste de carte du deck))  Note : 6x52 cartes pour 1 deck de base.
 - Fichier jeu.jl : Pour définir la classe de jeu (attributs : deck, deux main_cartes (ordi + joueur))
 
@@ -40,10 +39,25 @@ Points par carte :
 
 Jeudi 26/09 : Choix du sujet, écriture des règles et idées supplémentaires et définition de la structure du projet en Julia (classes). Création des fichiers pour les différentes classes et tentative (infructueuse) de définition d'une classe en Julia avec la classe carte.
 
-Mardi 01/10 : Mise en commun de ce qu'a cherché Lancelot durant le weekend : fonction de création de carte, de deck de 52 cartes, de deck de blackjack et mélanger un deck. Pour l'affichage : dash.jl, maki.jl, pluto.jl -> pour faire du html / javascript et avoir quelque chose d'intéractif.
-Notion de réactivité
+Mardi 01/10 : 
+Mise en commun de ce qu'a cherché Lancelot durant le weekend : fonction de création de carte, de deck de 52 cartes, de deck de blackjack et mélanger un deck. 
+Reflexions sur l'affichage : dash.jl, maki.jl, pluto.jl -> pour faire du html / javascript et avoir quelque chose d'intéractif. Question en cours sur les notions de simple vs multiple dispatching expliqué par Remy.
+Galères avec github : on choisit de partir sur un fonctionnement en branches ou en fork pour séparer notre travail.
 
-Notion de simple vs multiple dispatching expliqué par Remy.
+Mercredi 02/10 : Ré-adaptation des fonction de création de deck de blackjack et de mélange de deck. On a créé 2 fonctions shuffle et shuffle!  dans le but d'éviter de devoir recréer le deck de blackjack à chaque partie (dans une session), seulement au début de la session ce qui parait plus optimisé. 
+Problématique pour surcharger / étendre les fonction shuffle(!) déjà existantes dans la librairie Random, on l'importe explicitement.
+Creation des fonctions de calculs de la valeur d'une main et de tirer une carte.
+Première boucle de jeu à 1 joueur basique. On a appris comment demander à un utilisateur de rentrer quelque chose dans le terminal.
+Choix d'avoir une seule struct Deck à la fois pour le paquet de carte et pour les mains puisque les deux sont composés d'un vect de Carte.
+
+Jeudi 03/10:
+Mise en commun de ce que chacun a fait Mercredi. On a réparé et amélioré les boucles d'affichage de la valeur d'une main et de la boucle de jeu (problèmes sur les conditions de fin de jeu) et création d'une fonction d'affichage de la main du joueur (les cartes). On a fait plusieurs parties pour tester (et repérer les erreurs). On s'est rendu compte qu'il y avait une version amércaine et une version européenne des règles, on décide de partir sur la version européenne pour le moment car la règle supplémentaire des américains est basée sur la notion de pari / bet que l'on a pas encore implémentée. On a appris à faire concaténation de String avec s1 * s2.
+
+Trucs à faire :
+- Regarder comment on fait de la documentation en Julia.
+- Choisir anglais ou francais et s'y tenir -> Plutôt anglais ?
+- Mettre les images.
+
 
 
 

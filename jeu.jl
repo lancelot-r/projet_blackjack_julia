@@ -27,7 +27,7 @@ function jeu()
     hand_value_dealer = hand_value(dealer_hand)
     println("Current dealer hand value :")
     println(hand_value_dealer)
-    
+
     # Boucle de jeu pour le joueur
     hand_value_player = hand_value(player_hand)
     display_hand(player_hand,"player")
@@ -37,11 +37,13 @@ function jeu()
     while ((hand_value_player < 21) && !refus)
         println("Do you want to take a new card ? Press Y or N.")
         input = ""
+    
         while !(input in ["Y", "y", "N", "n"])
             input = readline()
         end
 
         if input in ["Y", "y"]
+
             println("You want a new card !")
             take_a_card(blackjack_deck,player_hand)
             display_hand(player_hand,"player")
@@ -54,6 +56,7 @@ function jeu()
                 return
             end
         elseif input in ["N", "n"]
+
             println("Ok, no new card...")
             refus = true
         end
@@ -82,7 +85,6 @@ function jeu()
         println("Draw.")
     end
 end
-
 
 
 end

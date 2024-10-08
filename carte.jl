@@ -21,6 +21,7 @@ dico_card_value = Dict(
 struct Carte
     suit::String
     rank::String
+
 end
 
 function valeur(c::Carte)

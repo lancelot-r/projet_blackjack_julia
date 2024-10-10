@@ -56,6 +56,9 @@ Mise en commun de ce que chacun a fait Mercredi. On a réparé et amélioré les
 Mardi 08/10 :
 On appris à créer des pull request et résoudre les conflits sur GitHub à partir du travail qu'avait fait Danielle durant le weekend. Création de module pour les appeler dans pluto. Création du pluto avec les fonctions dedans. Vizagrams -> Création de svg qui s'affichents dans pluto.
 
+Python version :
+Semble + lente mais à tester précisément, avantage c'est qu'on a pas à tapper 2 fois dans la console comme en Julia donc évite les "erreurs" dans le terminal, simple à mettre en place une fois qu'on a fait le travail en Julia.
+
 Trucs à faire :
 - Regarder comment on fait de la documentation en Julia.
 - Choisir anglais ou francais et s'y tenir -> Plutôt anglais ?

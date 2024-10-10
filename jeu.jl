@@ -86,5 +86,5 @@ function jeu()
     end
 end
 
-
+export jeu
 end

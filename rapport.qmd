@@ -54,7 +54,7 @@ Jeudi 03/10:
 Mise en commun de ce que chacun a fait Mercredi. On a réparé et amélioré les boucles d'affichage de la valeur d'une main et de la boucle de jeu (problèmes sur les conditions de fin de jeu) et création d'une fonction d'affichage de la main du joueur (les cartes). On a fait plusieurs parties pour tester (et repérer les erreurs). On s'est rendu compte qu'il y avait une version amércaine et une version européenne des règles, on décide de partir sur la version européenne pour le moment car la règle supplémentaire des américains est basée sur la notion de pari / bet que l'on a pas encore implémentée. On a appris à faire concaténation de String avec s1 * s2.
 
 Mardi 08/10 :
-On appris à créer des pull request et résoudre les conflits sur GitHub à partir du travail qu'avait fait Danielle durant le weekend. Création de module pour les appeler dans pluto. Création du pluto avec les fonctions dedans. Vizagrams -> Création de svg qui s'affichents dans pluto.
+On a appris à créer des pull request et résoudre les conflits sur GitHub à partir du travail qu'avait fait Danielle durant le weekend. Création de module pour les appeler dans pluto. Création du pluto avec les fonctions dedans. Vizagrams -> Création de svg qui s'affichents dans pluto.
 
 Python version :
 Semble + lente mais à tester précisément, avantage c'est qu'on a pas à tapper 2 fois dans la console comme en Julia donc évite les "erreurs" dans le terminal, simple à mettre en place une fois qu'on a fait le travail en Julia.
@@ -70,6 +70,10 @@ Danielle :
 Lancelot :
 - Interface graphique pluto pour le jeu en Julia
 
+Jeudi 10/10:
+En codant dans R: On a vu vraimant la difference entre R et Julia. Julia ne change pas la classe des var en utilisant des fonction, alors que dans R, par exemple: en appliquant la fct "sample" elle change la classe deck en une classe list 
+pour laisser la classe telle quelle, on a utiliser Deck(sample(...)).
+On a aussi utiliser explicitement le single dispatching dans R en utilisant pour shuffle la UseMethod
 
 
 

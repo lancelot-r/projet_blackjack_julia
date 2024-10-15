@@ -64,7 +64,7 @@ Trucs à faire :
 - Choisir anglais ou francais et s'y tenir -> Plutôt anglais ?
 Gary :
 - Fonction pour afficher les images de cartes + score
-- Coder le blackjack en Python
+- Faire une boucle "joue seul" pour pouvoir comparer n parties en R, Julia et Python.
 Danielle :
 - Coder le blackjack en R
 Lancelot :

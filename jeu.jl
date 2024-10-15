@@ -87,4 +87,6 @@ function jeu()
 end
 
 export jeu
+
+# GameDefinition.jeu() dans le terminal
 end

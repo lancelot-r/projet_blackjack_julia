@@ -43,19 +43,13 @@ end
 function concatene_decks(decks::Vector{Deck})
     new_list_cards = Vector{CardDefinitions.Card}()
     for deck in decks
-        for card in deck.cartes
+        for card in deck.cards
             push!(new_list_cards,card)
         end
     end
 
     return DeckDefinitions.Deck(new_list_cards)
 end
-
-jeu1 = create_deck_52()
-length(jeu1.cartes)
-jeuc = concatene_decks([jeu1,jeu1])
-length(jeuc.cartes)
-
 
 # Fonction de creation d'un jeu de blackjack
 # Amelioration : + rapide de faire une version modifiée de creation_deck_52 plutôt que de l'appeler ?

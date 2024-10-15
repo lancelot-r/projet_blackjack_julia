@@ -17,81 +17,148 @@ end
 # ╔═╡ de565fcf-f6de-41d5-85bf-7a4c0be29afc
 using Luxor
 
-# ╔═╡ d52c2907-6c87-48ee-a7b6-14483aefd25a
+# ╔═╡ 04fdf5f6-3c31-4544-8427-9a6f0b6394f0
+using HypertextLiteral
+
+# ╔═╡ 1620bca2-9942-49a7-839c-99b042868ef1
 using PlutoUI
 
-# ╔═╡ c2508835-9a21-4e4f-b1aa-ed79811079c6
-using Vizagrams
-
-# ╔═╡ b3119cee-4784-4b5e-8ba8-296c2278a233
-using Widgets
-
-# ╔═╡ a5d196e3-3c25-4e2e-be87-a2bf8e7343d1
+# ╔═╡ 372a8228-1215-4dcc-acaf-cf67a485bbfb
 begin
-include("carte.jl")
-	using .CardDefinitions
-include("deck.jl")
-	using .DeckDefinitions
-include("jeu.jl")
-	using .GameDefinition
+	include("carte.jl")
+    include("deck.jl")
+    include("jeu.jl")
+    using .CardDefinitions
+    using .DeckDefinitions
+    using .GameDefinition
+	
+    blackjack_deck = Ref(create_blackjack_deck(6))
+    player_hand = Ref(create_empty_hand())
+    dealer_hand = Ref(create_empty_hand())
+    game_over = Ref(false)
+    player_won = Ref(false)
+    dealer_won = Ref(false)
+    player_busted = Ref(false)
+
+function reset_game()
+    blackjack_deck[] = DeckDefinitions.create_blackjack_deck(6)
+    DeckDefinitions.shuffle!(blackjack_deck[])
+    player_hand[] = DeckDefinitions.create_empty_hand()
+    dealer_hand[] = DeckDefinitions.create_empty_hand()
+    game_over[] = false
+    player_won[] = false
+    dealer_won[] = false
+    player_busted[] = false
+
+    DeckDefinitions.take_a_card(blackjack_deck[], player_hand[])
+    DeckDefinitions.take_a_card(blackjack_deck[], dealer_hand[])
+    DeckDefinitions.take_a_card(blackjack_deck[], player_hand[])
 end
 
-# ╔═╡ 5a3bd272-cd39-4f25-b0e3-12b39b3249f4
-
-#Create the buttons needed for the game
-# Button to start a new game
-@bind new_game_button PlutoUI.Button("New Game")
-
-
-
-# ╔═╡ 32742b7a-447c-4ffb-afc7-ed1e76594dfb
-# Buttons for the player: "Hit" (Take a new card) and "Stand" (Stop taking cards)
-@bind hit_button PlutoUI.Button("Hit")
-
-
-
-# ╔═╡ 02844c12-e043-476c-a109-ab9ebdf623b2
-@bind stand_button PlutoUI.Button("Stand")
-
-# ╔═╡ f988b88f-863e-44e6-8eae-8aae5ba1499a
-begin
-# Initial values for deck and hands
-initial_deck = DeckDefinitions.create_blackjack_deck(6)  # Create a new deck
-player_hand_initial = Array{CardDefinitions.Carte, 1}(undef, 0)  # Empty hand for player
-dealer_hand_initial = Array{CardDefinitions.Carte, 1}(undef, 0)  # Empty hand for dealer
+function player_hit()
+    if !game_over[]
+        take_a_card(blackjack_deck[], player_hand[])
+        hand_value_player = hand_value(player_hand[])
+        
+        if hand_value_player > 21
+            game_over[] = true
+            player_busted[] = true
+        end
+    end
 end
 
-# ╔═╡ 3648be8d-8ad4-4f70-b9d2-da2e693f9320
-# Track game state: Game over status and winner message
-@bind game_over CheckBox(false)
+function dealer_turn()
+    if !game_over[]
+        hand_value_dealer = DeckDefinitions.hand_value(dealer_hand[])
+        while hand_value_dealer < 17
+            DeckDefinitions.take_a_card(blackjack_deck[], dealer_hand[])
+            hand_value_dealer = DeckDefinitions.hand_value(dealer_hand[])
+        end
+        
+        hand_value_player = DeckDefinitions.hand_value(player_hand[])
+        if (hand_value_player <= 21) && (hand_value_dealer > 21 || hand_value_player > hand_value_dealer)
+            player_won[] = true
+        elseif hand_value_dealer <= 21 && hand_value_dealer > hand_value_player
+            dealer_won[] = true
+        end
+        game_over[] = true
+    end
+end
 
-# ╔═╡ 2baeca48-bc83-401d-a022-068d2e570c76
-# Definir un message pour le status du jeu
-game_message = game_over ? "Game Over! You won!" : "Game in progress."
+function player_fold()
+    if !game_over[]
+        dealer_turn()
+    end
+end
+end
 
+# ╔═╡ 1891541e-d628-4cd1-b71b-4c5749958a6a
+@bind newgame @htl("""
+<div>
+<button>New game</button>
 
-# ╔═╡ b7c87768-8377-4f1c-8f3b-b65d888da9df
-#pour afficher le message du jeu
-md"**$game_message**"
+<script>
+let val = 0
+const div = currentScript.parentElement
+const button = div.querySelector("button")
 
-# ╔═╡ ced23356-cd15-46b0-b204-b548d2de4d5b
-stand_button
+button.addEventListener("click", () => {
+	// 🐸 Set the value of the div element and trigger an event! 🐸
+	div.value = val++
+	div.dispatchEvent(new CustomEvent("input"))
+})
+</script>
+</div>
+""")
 
-# ╔═╡ dfe24a44-051f-4ecf-b2a6-173a5d99c924
+# ╔═╡ e72d54a4-9e4a-4efc-b2da-77a1754edaec
 begin
-	d = S(:fill=>:white,:stroke=>:black)*Vizagrams.Circle(r=2)
-	draw(d)
+begin
+    if newgame == "New Game"
+        reset_game()
+    elseif hit == "Hit"
+        player_hit()
+    elseif fold == "Fold"
+        player_fold()
+    end
+end
+
+    println("Player's Hand:")
+    DeckDefinitions.display_hand(player_hand[], "Player")
+    println("Player hand value: ", DeckDefinitions.hand_value(player_hand[]))
+
+    if !game_over[]
+        println("Dealer's Hand (first card hidden):")
+        println(dealer_hand[].cartes[1].rank, " of ", dealer_hand[].cartes[1].suit)
+    else
+        println("Dealer's Hand:")
+        display_hand(dealer_hand[], "Dealer")
+        println("Dealer hand value: ", hand_value(dealer_hand[]))
+    end
+if game_over[]
+        if player_won[]
+            println("You won!")
+        elseif dealer_won[]
+            println("Dealer won!")
+        elseif player_busted[]
+            println("You busted!")
+        else
+            println("Draw!")
+        end
+    end
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
+HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
 Luxor = "ae8d54c2-7ccd-5906-9d76-62fc9837b5bc"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 Vizagrams = "8c229dad-8b3a-4031-83d6-73545c88426d"
 Widgets = "cc8bc4a8-27d6-5769-a93b-9d913e69aa62"
 
 [compat]
+HypertextLiteral = "~0.9.5"
 Luxor = "~4.1.0"
 PlutoUI = "~0.7.60"
 Vizagrams = "~0.2.10"
@@ -104,7 +171,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.10.5"
 manifest_format = "2.0"
-project_hash = "08acc4d28c4699ca32e61b226877f766050344f7"
+project_hash = "061f5eae8dcd07b50a3939a3190671725d24aa65"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -1275,18 +1342,10 @@ version = "3.5.0+0"
 
 # ╔═╡ Cell order:
 # ╠═de565fcf-f6de-41d5-85bf-7a4c0be29afc
-# ╠═d52c2907-6c87-48ee-a7b6-14483aefd25a
-# ╠═c2508835-9a21-4e4f-b1aa-ed79811079c6
-# ╠═b3119cee-4784-4b5e-8ba8-296c2278a233
-# ╠═a5d196e3-3c25-4e2e-be87-a2bf8e7343d1
-# ╠═5a3bd272-cd39-4f25-b0e3-12b39b3249f4
-# ╠═32742b7a-447c-4ffb-afc7-ed1e76594dfb
-# ╠═02844c12-e043-476c-a109-ab9ebdf623b2
-# ╠═f988b88f-863e-44e6-8eae-8aae5ba1499a
-# ╠═3648be8d-8ad4-4f70-b9d2-da2e693f9320
-# ╠═2baeca48-bc83-401d-a022-068d2e570c76
-# ╠═b7c87768-8377-4f1c-8f3b-b65d888da9df
-# ╠═ced23356-cd15-46b0-b204-b548d2de4d5b
-# ╠═dfe24a44-051f-4ecf-b2a6-173a5d99c924
+# ╠═04fdf5f6-3c31-4544-8427-9a6f0b6394f0
+# ╠═1620bca2-9942-49a7-839c-99b042868ef1
+# ╠═372a8228-1215-4dcc-acaf-cf67a485bbfb
+# ╠═e72d54a4-9e4a-4efc-b2da-77a1754edaec
+# ╠═1891541e-d628-4cd1-b71b-4c5749958a6a
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

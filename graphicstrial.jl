@@ -17,10 +17,11 @@ end
 # ╔═╡ de565fcf-f6de-41d5-85bf-7a4c0be29afc
 using Luxor
 
+# ╔═╡ 04fdf5f6-3c31-4544-8427-9a6f0b6394f0
+using HypertextLiteral
+
 # ╔═╡ 1620bca2-9942-49a7-839c-99b042868ef1
-begin
-    using PlutoUI  # For interactive widgets
-end
+using PlutoUI
 
 # ╔═╡ 372a8228-1215-4dcc-acaf-cf67a485bbfb
 begin
@@ -91,14 +92,24 @@ function player_fold()
 end
 end
 
-# ╔═╡ b0b33b70-6a94-4f5d-b2b7-bc95b5eba195
-@bind newgame NewGameButton = Button("New Game")
+# ╔═╡ 1891541e-d628-4cd1-b71b-4c5749958a6a
+@bind newgame @htl("""
+<div>
+<button>New game</button>
 
-# ╔═╡ d940f2c5-21e4-46f6-89a0-d267c9fdc34c
-@bind hit HitButton = Button("Hit")
+<script>
+let val = 0
+const div = currentScript.parentElement
+const button = div.querySelector("button")
 
-# ╔═╡ 359e3d53-4989-4c62-92a3-03ddc33c410d
-@bind fold FoldButton = Button("Fold")
+button.addEventListener("click", () => {
+	// 🐸 Set the value of the div element and trigger an event! 🐸
+	div.value = val++
+	div.dispatchEvent(new CustomEvent("input"))
+})
+</script>
+</div>
+""")
 
 # ╔═╡ e72d54a4-9e4a-4efc-b2da-77a1754edaec
 begin
@@ -137,16 +148,15 @@ if game_over[]
     end
 end
 
-# ╔═╡ 1891541e-d628-4cd1-b71b-4c5749958a6a
-pwd()
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
+HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
 Luxor = "ae8d54c2-7ccd-5906-9d76-62fc9837b5bc"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
+HypertextLiteral = "~0.9.5"
 Luxor = "~4.1.0"
 PlutoUI = "~0.7.60"
 """
@@ -157,7 +167,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.10.5"
 manifest_format = "2.0"
-project_hash = "807b7b1a0b7f7b44ac17e6af4a81b0c3381604ed"
+project_hash = "061f5eae8dcd07b50a3939a3190671725d24aa65"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -818,12 +828,10 @@ version = "3.5.0+0"
 
 # ╔═╡ Cell order:
 # ╠═de565fcf-f6de-41d5-85bf-7a4c0be29afc
+# ╠═04fdf5f6-3c31-4544-8427-9a6f0b6394f0
 # ╠═1620bca2-9942-49a7-839c-99b042868ef1
 # ╠═372a8228-1215-4dcc-acaf-cf67a485bbfb
 # ╠═e72d54a4-9e4a-4efc-b2da-77a1754edaec
-# ╠═b0b33b70-6a94-4f5d-b2b7-bc95b5eba195
-# ╠═d940f2c5-21e4-46f6-89a0-d267c9fdc34c
-# ╠═359e3d53-4989-4c62-92a3-03ddc33c410d
 # ╠═1891541e-d628-4cd1-b71b-4c5749958a6a
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

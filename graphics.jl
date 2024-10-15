@@ -24,25 +24,25 @@ dealer_score = Circle(DEALER_X + DEALER_W + 100, DEALER_Y + DEALER_H ÷ 4 * 3, 5
 start_game_button = Rect(100, 800, 50, 50)
 test = Circle(100, 500, 50)
 
-draw_test = false
-
-function on_key_down(g::Game, k)
-    if k == Keys.SPACE
-        global draw_test
-        draw_test = true
-    end
-end
-
-function draw(g::Game)
-    global draw_test  # Declare draw_test as global
-
+function draw(g::Game) 
     draw(dealer_card_space, colorant"black", fill=true)
     draw(player_card_space, colorant"black", fill=true)
     draw(player_score, colorant"white", fill=true)
     draw(dealer_score, colorant"white", fill=true)
     draw(start_game_button, colorant"blue", fill=true)
+end
 
-    if draw_test
+function on_key_down(g::Game, k)
+    if k == Keys.SPACE
+        println("Key pressed: $k")
+        draw(test, colorant"blue", fill=true)
+    end
+end
+
+function on_mouse_down(g::Game, pos)
+    if pos[1] >= start_game_button.x && pos[1] <= (start_game_button.x + start_game_button.w) &&
+       pos[2] >= start_game_button.y && pos[2] <= (start_game_button.y + start_game_button.h)
+        println("Mouse clicked at: $pos")
         draw(test, colorant"blue", fill=true)
     end
 end

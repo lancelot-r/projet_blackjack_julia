@@ -8,20 +8,20 @@ import Random.shuffle!
 
 # On crée une structure mutable de deck qui est composée de cartes (vecteur de Carte)
 mutable struct Deck
-    cartes::Vector{CardDefinitions.Carte}
+    cards::Vector{CardDefinitions.Card}
 end
 
 
 # Fonction de test pour afficher la valeur (numerique) des cartes d'un deck.
-function affiche_valeur_cartes(d::Deck)
-    liste_cartes = d.cartes
-    for carte in liste_cartes
-        println(valeur(carte))
+function show_cards_values(d::Deck)
+    list_cards = d.cards
+    for card in list_cards
+        println(value(card))
     end
 end
 
 function create_deck_52()
-    liste_cartes = Vector{CardDefinitions.Carte}()
+    list_cards = Vector{CardDefinitions.Card}()
 end
 
 # Creation d'un jeu de 52 cartes
@@ -29,33 +29,27 @@ suits = ["clubs","spades","hearts","diamonds"]
 ranks = ["ace","2","3","4","5","6","7","8","9","10","jack","queen","king"]
 
 function create_deck_52()
-    liste_cartes = []
+    list_cards = []
     for suit in suits
         for rank in ranks
             #image_path = "images/$(rank)_of_$(suit).png"
-            push!(liste_cartes, Carte(suit,rank))
+            push!(list_cards, Card(suit,rank))
         end
     end
-    return DeckDefinitions.Deck(liste_cartes)
+    return DeckDefinitions.Deck(list_cards)
 end
 
 # Fonction de concatenation de decks
 function concatene_decks(decks::Vector{Deck})
-    new_list_cards = Vector{CardDefinitions.Carte}()
+    new_list_cards = Vector{CardDefinitions.Card}()
     for deck in decks
-        for carte in deck.cartes
-            push!(new_list_cards,carte)
+        for card in deck.cards
+            push!(new_list_cards,card)
         end
     end
 
     return DeckDefinitions.Deck(new_list_cards)
 end
-
-jeu1 = create_deck_52()
-length(jeu1.cartes)
-jeuc = concatene_decks([jeu1,jeu1])
-length(jeuc.cartes)
-
 
 # Fonction de creation d'un jeu de blackjack
 # Amelioration : + rapide de faire une version modifiée de creation_deck_52 plutôt que de l'appeler ?
@@ -78,7 +72,7 @@ blackjack_deck = create_blackjack_deck(6)
 # On surcharge / etend la fonction shuffle deja existante.
 # Moins couteux en memoire vu qu'on modifie juste un objet déjà existant mais du coup on perd le jeu de base.
 function shuffle!(deck::Deck) 
-    Random.shuffle!(deck.cartes) 
+    Random.shuffle!(deck.cards) 
     return
 end
 
@@ -86,7 +80,7 @@ end
 # On surcharge / etend la fonction shuffle! deja existante.
 # Plus couteux en memoire vu qu'on aura 2 objects avec les memes cartes mais permet de garder le jeu de base intact.
 function shuffle(deck::Deck)
-    cards_new_order = Random.shuffle(deck.cartes)
+    cards_new_order = Random.shuffle(deck.cards)
     return DeckDefinitions.Deck(cards_new_order)
 
 end
@@ -111,7 +105,7 @@ function hand_value(hand::Deck)
     value = 0
     aces = 0
 #pour donner a chaque carte sa valeur définie
-    for card in hand.cartes
+    for card in hand.cards
         rank = card.rank
         if rank == "ace" #pour le cas spécial ace
             value += 11
@@ -132,14 +126,14 @@ end
 
 
 function take_a_card(pile::Deck,player_hand::Deck)
-    new_card = popfirst!(pile.cartes)
-    append!(player_hand.cartes,[new_card])
+    new_card = popfirst!(pile.cards)
+    append!(player_hand.cards,[new_card])
     return
 end
 
 function display_hand(hand::Deck,name::String)
     print("The " * name * " hand : ")
-    for card in hand.cartes
+    for card in hand.cards
         print(card.rank)
         print(" of ")
         print(card.suit)
@@ -148,5 +142,5 @@ function display_hand(hand::Deck,name::String)
     println("")
 end
 
-export Deck,take_a_card, display_hand, create_empty_hand, hand_value, shuffle, shuffle!, create_deck_52, affiche_valeur_cartes, concatene_decks, create_blackjack_deck 
+export Deck,take_a_card, display_hand, create_empty_hand, hand_value, shuffle, shuffle!, create_deck_52, show_cards_values, concatene_decks, create_blackjack_deck 
 end

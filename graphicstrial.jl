@@ -17,56 +17,128 @@ end
 # ╔═╡ de565fcf-f6de-41d5-85bf-7a4c0be29afc
 using Luxor
 
-# ╔═╡ d52c2907-6c87-48ee-a7b6-14483aefd25a
-using PlutoUI
-
-# ╔═╡ a5d196e3-3c25-4e2e-be87-a2bf8e7343d1
+# ╔═╡ 1620bca2-9942-49a7-839c-99b042868ef1
 begin
-include("carte.jl")
-	using .CardDefinitions
-include("deck.jl")
-	using .DeckDefinitions
-include("jeu.jl")
-	using .GameDefinition
+    using PlutoUI  # For interactive widgets
 end
 
-# ╔═╡ 5a3bd272-cd39-4f25-b0e3-12b39b3249f4
-
-#Create the buttons needed for the game
-# Button to start a new game
-@bind new_game_button PlutoUI.Button("New Game")
-
-
-
-# ╔═╡ 32742b7a-447c-4ffb-afc7-ed1e76594dfb
-# Buttons for the player: "Hit" (Take a new card) and "Stand" (Stop taking cards)
-@bind hit_button PlutoUI.Button("Hit")
-
-
-
-# ╔═╡ 02844c12-e043-476c-a109-ab9ebdf623b2
-@bind stand_button PlutoUI.Button("Stand")
-
-# ╔═╡ f988b88f-863e-44e6-8eae-8aae5ba1499a
+# ╔═╡ 372a8228-1215-4dcc-acaf-cf67a485bbfb
 begin
-# Initial values for deck and hands
-initial_deck = DeckDefinitions.create_blackjack_deck(6)  # Create a new deck
-player_hand_initial = Array{CardDefinitions.Carte, 1}(undef, 0)  # Empty hand for player
-dealer_hand_initial = Array{CardDefinitions.Carte, 1}(undef, 0)  # Empty hand for dealer
+	include("carte.jl")
+    include("deck.jl")
+    include("jeu.jl")
+    using .CardDefinitions
+    using .DeckDefinitions
+    using .GameDefinition
+	
+    blackjack_deck = Ref(create_blackjack_deck(6))
+    player_hand = Ref(create_empty_hand())
+    dealer_hand = Ref(create_empty_hand())
+    game_over = Ref(false)
+    player_won = Ref(false)
+    dealer_won = Ref(false)
+    player_busted = Ref(false)
+
+function reset_game()
+    blackjack_deck[] = DeckDefinitions.create_blackjack_deck(6)
+    DeckDefinitions.shuffle!(blackjack_deck[])
+    player_hand[] = DeckDefinitions.create_empty_hand()
+    dealer_hand[] = DeckDefinitions.create_empty_hand()
+    game_over[] = false
+    player_won[] = false
+    dealer_won[] = false
+    player_busted[] = false
+
+    DeckDefinitions.take_a_card(blackjack_deck[], player_hand[])
+    DeckDefinitions.take_a_card(blackjack_deck[], dealer_hand[])
+    DeckDefinitions.take_a_card(blackjack_deck[], player_hand[])
 end
 
-# ╔═╡ 3648be8d-8ad4-4f70-b9d2-da2e693f9320
-# Track game state: Game over status and winner message
-@bind game_over CheckBox(false)
+function player_hit()
+    if !game_over[]
+        take_a_card(blackjack_deck[], player_hand[])
+        hand_value_player = hand_value(player_hand[])
+        
+        if hand_value_player > 21
+            game_over[] = true
+            player_busted[] = true
+        end
+    end
+end
 
-# ╔═╡ 2baeca48-bc83-401d-a022-068d2e570c76
-# Definir un message pour le status du jeu
-game_message = game_over ? "Game Over! You won!" : "Game in progress."
+function dealer_turn()
+    if !game_over[]
+        hand_value_dealer = DeckDefinitions.hand_value(dealer_hand[])
+        while hand_value_dealer < 17
+            DeckDefinitions.take_a_card(blackjack_deck[], dealer_hand[])
+            hand_value_dealer = DeckDefinitions.hand_value(dealer_hand[])
+        end
+        
+        hand_value_player = DeckDefinitions.hand_value(player_hand[])
+        if (hand_value_player <= 21) && (hand_value_dealer > 21 || hand_value_player > hand_value_dealer)
+            player_won[] = true
+        elseif hand_value_dealer <= 21 && hand_value_dealer > hand_value_player
+            dealer_won[] = true
+        end
+        game_over[] = true
+    end
+end
 
+function player_fold()
+    if !game_over[]
+        dealer_turn()
+    end
+end
+end
 
-# ╔═╡ b7c87768-8377-4f1c-8f3b-b65d888da9df
-#pour afficher le message du jeu
-md"**$game_message**"
+# ╔═╡ b0b33b70-6a94-4f5d-b2b7-bc95b5eba195
+@bind newgame NewGameButton = Button("New Game")
+
+# ╔═╡ d940f2c5-21e4-46f6-89a0-d267c9fdc34c
+@bind hit HitButton = Button("Hit")
+
+# ╔═╡ 359e3d53-4989-4c62-92a3-03ddc33c410d
+@bind fold FoldButton = Button("Fold")
+
+# ╔═╡ e72d54a4-9e4a-4efc-b2da-77a1754edaec
+begin
+begin
+    if newgame == "New Game"
+        reset_game()
+    elseif hit == "Hit"
+        player_hit()
+    elseif fold == "Fold"
+        player_fold()
+    end
+end
+
+    println("Player's Hand:")
+    DeckDefinitions.display_hand(player_hand[], "Player")
+    println("Player hand value: ", DeckDefinitions.hand_value(player_hand[]))
+
+    if !game_over[]
+        println("Dealer's Hand (first card hidden):")
+        println(dealer_hand[].cartes[1].rank, " of ", dealer_hand[].cartes[1].suit)
+    else
+        println("Dealer's Hand:")
+        display_hand(dealer_hand[], "Dealer")
+        println("Dealer hand value: ", hand_value(dealer_hand[]))
+    end
+if game_over[]
+        if player_won[]
+            println("You won!")
+        elseif dealer_won[]
+            println("Dealer won!")
+        elseif player_busted[]
+            println("You busted!")
+        else
+            println("Draw!")
+        end
+    end
+end
+
+# ╔═╡ 1891541e-d628-4cd1-b71b-4c5749958a6a
+pwd()
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -746,14 +818,12 @@ version = "3.5.0+0"
 
 # ╔═╡ Cell order:
 # ╠═de565fcf-f6de-41d5-85bf-7a4c0be29afc
-# ╠═d52c2907-6c87-48ee-a7b6-14483aefd25a
-# ╠═a5d196e3-3c25-4e2e-be87-a2bf8e7343d1
-# ╠═5a3bd272-cd39-4f25-b0e3-12b39b3249f4
-# ╠═32742b7a-447c-4ffb-afc7-ed1e76594dfb
-# ╠═02844c12-e043-476c-a109-ab9ebdf623b2
-# ╠═f988b88f-863e-44e6-8eae-8aae5ba1499a
-# ╠═3648be8d-8ad4-4f70-b9d2-da2e693f9320
-# ╠═2baeca48-bc83-401d-a022-068d2e570c76
-# ╠═b7c87768-8377-4f1c-8f3b-b65d888da9df
+# ╠═1620bca2-9942-49a7-839c-99b042868ef1
+# ╠═372a8228-1215-4dcc-acaf-cf67a485bbfb
+# ╠═e72d54a4-9e4a-4efc-b2da-77a1754edaec
+# ╠═b0b33b70-6a94-4f5d-b2b7-bc95b5eba195
+# ╠═d940f2c5-21e4-46f6-89a0-d267c9fdc34c
+# ╠═359e3d53-4989-4c62-92a3-03ddc33c410d
+# ╠═1891541e-d628-4cd1-b71b-4c5749958a6a
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

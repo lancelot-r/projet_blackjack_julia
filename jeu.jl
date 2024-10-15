@@ -86,5 +86,66 @@ function jeu()
     end
 end
 
-export jeu
+function loop()
+    # Instancier un deck de black jack
+    blackjack_deck = DeckDefinitions.create_blackjack_deck(6)
+    # Le melanger
+    shuffle!(blackjack_deck)
+    
+
+    # Instancier une main pour le dealer et le joueur
+    player_hand = create_empty_hand()
+    dealer_hand = create_empty_hand()
+
+    # Distribution des cartes
+    take_a_card(blackjack_deck,player_hand)
+    take_a_card(blackjack_deck,dealer_hand)
+    take_a_card(blackjack_deck,player_hand)
+
+    # On affiche la main du dealer
+    display_hand(dealer_hand,"dealer")
+    hand_value_dealer = hand_value(dealer_hand)
+    println("Current dealer hand value :")
+    println(hand_value_dealer)
+
+    # Boucle de jeu pour le joueur
+    display_hand(player_hand,"player")
+    hand_value_player = hand_value(player_hand)
+    println("Current player hand value :")
+    println(hand_value_player)
+    while (hand_value_player < 17)
+        take_a_card(blackjack_deck,player_hand)
+        display_hand(player_hand,"player")
+        hand_value_player = hand_value(player_hand)
+        println("Current player hand value :")
+        println(hand_value_player)
+    end
+
+    #Boucle de jeu pour le dealer
+    display_hand(dealer_hand,"dealer")
+    hand_value_dealer = hand_value(dealer_hand)
+    println("Current dealer hand value :")
+    println(hand_value_dealer)
+    while (hand_value_dealer < 17)
+        take_a_card(blackjack_deck,dealer_hand)
+        display_hand(dealer_hand,"dealer")
+        hand_value_dealer = hand_value(dealer_hand)
+        println("Current dealer hand value :")
+        println(hand_value_dealer)
+    end
+
+    # Affichage fin de partie
+    if ((hand_value_player <= 21) && ((hand_value_dealer < hand_value_player) || hand_value_dealer > 21))
+        println("You won !")
+    elseif ((hand_value_dealer <= 21) && (hand_value_dealer > hand_value_player))
+        println("The dealer won...")
+    else
+        println("Draw.")
+    end
+end
+
+
+export jeu, loop
+
+# GameDefinition.jeu() dans le terminal
 end

@@ -22,21 +22,21 @@ const dico_card_value = Dict(
 )
 
 #Old code
-struct Carte
+struct Card
     suit::String
     rank::String
 
 end
 
-function valeur(c::Carte)
+function value(c::Card)
     return dico_card_value[c.rank]
 end
 
 
-carte_ex = Carte("hearts","king")
-print(valeur(carte_ex))
+carte_ex = Card("hearts","king")
+print(value(carte_ex))
 
-export Carte, valeur, suits, ranks, dico_card_value
+export Card, value, suits, ranks, dico_card_value
 
 end
 

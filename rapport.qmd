@@ -37,6 +37,8 @@ Points par carte :
     - Plusieurs joueurs
     - Timer
 
+# Journal
+
 Jeudi 26/09 : Choix du sujet, écriture des règles et idées supplémentaires et définition de la structure du projet en Julia (classes). Création des fichiers pour les différentes classes et tentative (infructueuse) de définition d'une classe en Julia avec la classe carte.
 
 Mardi 01/10 : 
@@ -56,13 +58,14 @@ Mise en commun de ce que chacun a fait Mercredi. On a réparé et amélioré les
 Mardi 08/10 :
 On a appris à créer des pull request et résoudre les conflits sur GitHub à partir du travail qu'avait fait Danielle durant le weekend. Création de module pour les appeler dans pluto. Création du pluto avec les fonctions dedans. Vizagrams -> Création de svg qui s'affichents dans pluto.
 
-Jeudi 10/10 : Version de Python. Semble + lente mais à tester précisément, avantage c'est qu'on a pas à tapper 2 fois dans la console comme en Julia donc évite les "erreurs" dans le terminal, simple à mettre en place une fois qu'on a fait le travail en Julia.
+Jeudi 10/10 : Version du blackjack en Python. Semble + lente mais à tester précisément, avantage c'est qu'on a pas à tapper 2 fois dans la console comme en Julia donc évite les "erreurs" dans le terminal, simple à mettre en place une fois qu'on a fait le travail en Julia.
+Version du blackjack dans R: On a vu vraimant la difference entre R et Julia. Julia ne change pas la classe des var en utilisant des fonction, alors que dans R, par exemple: en appliquant la fct "sample" elle change la classe deck en une classe list pour laisser la classe telle quelle, on a utiliser Deck(sample(...)). On a aussi utiliser explicitement le single dispatching dans R en utilisant pour shuffle la UseMethod.
 
 Mardi 15/10 : Corrections du code pour tout mettre en anglais. On a essayé de faire l'affichage avec Pluto et autres packages d'affichage. 
 
 Jeudi 17/10 : On a une ébauche (bugué) de notebook Pluto pour le jeu. On essaye donc de réparer ça parce que les boutons ne font pas ce que l'on veut. Possibilités : passer en markdown, nettoyer le code pour séparer les calculs et l'affichage en faisant des fonctions. On veut aussi implémenter le fait d'afficher des images dans le notebook.
 
-Trucs à faire :
+# Trucs à faire :
 - graphicstrial.jl -> Passer les textes en Markdown plutôt que des prints.
 - graphicstrial.jl -> Séparer les calculs et l'affichage (faire des fonctions).
 - graphicstrial.jl -> Implémenter l'affichage des images dans le notebook.
@@ -76,11 +79,3 @@ Gary :
 - Tester avec PythonCall dans Julia pour les tester en même temps pour différentes valeurs de n.
 Lancelot :
 - Interface graphique pluto pour le jeu en Julia
-
-Jeudi 10/10:
-En codant dans R: On a vu vraimant la difference entre R et Julia. Julia ne change pas la classe des var en utilisant des fonction, alors que dans R, par exemple: en appliquant la fct "sample" elle change la classe deck en une classe list 
-pour laisser la classe telle quelle, on a utiliser Deck(sample(...)).
-On a aussi utiliser explicitement le single dispatching dans R en utilisant pour shuffle la UseMethod
-
-
-

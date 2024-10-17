@@ -10,6 +10,9 @@ using Images
 # ╔═╡ eea8329a-2415-4a95-acd8-a468df86246b
 using PlutoUI
 
+# ╔═╡ 10022b22-684e-47ec-a8a5-b88c86be2fd1
+using Plots
+
 # ╔═╡ f7a980be-6c92-43c1-9bb2-4ef1b89be700
 image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Pluto-01_Stern_03_Pluto_Color_TXT.jpg/1024px-Pluto-01_Stern_03_Pluto_Color_TXT.jpg"
 
@@ -1235,6 +1238,7 @@ version = "17.4.0+2"
 # ╔═╡ Cell order:
 # ╠═40cfecb0-8c52-11ef-0436-6555b7049c28
 # ╠═eea8329a-2415-4a95-acd8-a468df86246b
+# ╠═10022b22-684e-47ec-a8a5-b88c86be2fd1
 # ╠═f7a980be-6c92-43c1-9bb2-4ef1b89be700
 # ╠═93a98ca0-290e-4f8f-a807-284a38fe21d4
 # ╠═298b8d39-9a3b-4b76-81eb-c83b38076977

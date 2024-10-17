@@ -65,15 +65,15 @@ begin
         DeckDefinitions.take_a_card(blackjack_deck, player_hand)
         DeckDefinitions.take_a_card(blackjack_deck, dealer_hand)
         DeckDefinitions.take_a_card(blackjack_deck, player_hand)
-        game_state = Ref(Dict(
+        game_state = Dict(
             :deck => blackjack_deck,
             :player_hand => player_hand,
             :dealer_hand => dealer_hand,
             :game_over => false,
             :message => "",
 			:last_player_action => nothing
-        ))
-		game_state[][:last_player_action] = nothing
+        )
+		game_state[:last_player_action] = nothing
     end
 end
 
@@ -103,59 +103,68 @@ begin
 		""")
 end
 
+# ╔═╡ 0719020b-b8ef-41b2-b442-642d4c293603
+player_action
+
 # ╔═╡ b3facd0e-2956-4f0b-8ed9-a65390fcfb7b
 begin
-	player_action
+	update_table
 	
     println("**Player's Hand:**")
-    DeckDefinitions.display_hand(game_state[][:player_hand], "Player")
+    DeckDefinitions.display_hand(game_state[:player_hand], "Player")
     println("Current player hand value:")
-    println(DeckDefinitions.hand_value(game_state[][:player_hand]))
+    println(DeckDefinitions.hand_value(game_state[:player_hand]))
     
     println("\n**Dealer's Hand:**")
-    DeckDefinitions.display_hand(game_state[][:dealer_hand], "Dealer")
+    DeckDefinitions.display_hand(game_state[:dealer_hand], "Dealer")
     println("Current dealer hand value:")
-    println(DeckDefinitions.hand_value(game_state[][:dealer_hand]))
+    println(DeckDefinitions.hand_value(game_state[:dealer_hand]))
     
-    if game_state[][:game_over]
+    if game_state[:game_over]
         println("\n**Result:**")
-        println(game_state[][:message])
+        println(game_state[:message])
     end
 end
 
 # ╔═╡ 83eab7e5-aae4-4880-9531-d0a8e5a7e5dc
 begin		
-	    if !ismissing(player_action) && player_action !== game_state[][:last_player_action] && !game_state[][:game_over]
+	    if !ismissing(player_action) && player_action !== game_state[:last_player_action] && !game_state[:game_over]
 	        if player_action == "hit"
 	            # Le joueur prend une carte
-	            DeckDefinitions.take_a_card(game_state[][:deck], game_state[][:player_hand])
+	            DeckDefinitions.take_a_card(game_state[:deck], game_state[:player_hand])
 	            # Vérifier si le joueur a dépassé 21
-	            if DeckDefinitions.hand_value(game_state[][:player_hand]) > 21
-	                game_state[][:game_over] = true
-	                game_state[][:message] = "You went over 21! You lost."
+	            if DeckDefinitions.hand_value(game_state[:player_hand]) > 21
+	                game_state[:game_over] = true
+	                game_state[:message] = "You went over 21! You lost."
 	            end
 	        elseif player_action == "stand"
 	            # Le joueur s'arrête, le dealer joue
-	            game_state[][:game_over] = true
+	            game_state[:game_over] = true
 	            # Logique pour le dealer
-	            while DeckDefinitions.hand_value(game_state[][:dealer_hand]) < 17
-	                DeckDefinitions.take_a_card(game_state[][:deck], game_state[][:dealer_hand])
+	            while DeckDefinitions.hand_value(game_state[:dealer_hand]) < 17
+	                DeckDefinitions.take_a_card(game_state[:deck], game_state[:dealer_hand])
 	            end
 	            # Déterminer le gagnant
-	            player_score = DeckDefinitions.hand_value(game_state[][:player_hand])
-	            dealer_score = DeckDefinitions.hand_value(game_state[][:dealer_hand])
+	            player_score = DeckDefinitions.hand_value(game_state[:player_hand])
+	            dealer_score = DeckDefinitions.hand_value(game_state[:dealer_hand])
 	            if dealer_score > 21 || player_score > dealer_score
-	                game_state[][:message] = "You won!"
+	                game_state[:message] = "You won!"
 	            elseif dealer_score > player_score
-	                game_state[][:message] = "The dealer won..."
+	                game_state[:message] = "The dealer won..."
 	            else
-	                game_state[][:message] = "Draw."
+	                game_state[:message] = "Draw."
 	            end
 	        end
 	        # Mettre à jour la dernière action du joueur
-		    game_state[][:last_player_action] = nothing
+		    game_state[:last_player_action] = nothing
+			global update_table = update_table + 1
 	    end
 	end
+
+# ╔═╡ a4692307-1e82-423a-99e7-eb60f7a521a6
+begin
+	update_table = 0
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -843,8 +852,10 @@ version = "3.5.0+0"
 # ╠═dc58daf4-7ca6-47c0-a8b5-6b1f9d6dd774
 # ╠═372a8228-1215-4dcc-acaf-cf67a485bbfb
 # ╠═ad59fe35-e7a6-45d1-8d54-f5c06718780e
+# ╠═a4692307-1e82-423a-99e7-eb60f7a521a6
 # ╠═b3facd0e-2956-4f0b-8ed9-a65390fcfb7b
-# ╟─1b1bb91f-21a6-4fa5-9c2b-a8af4cd93a8b
+# ╠═0719020b-b8ef-41b2-b442-642d4c293603
+# ╠═1b1bb91f-21a6-4fa5-9c2b-a8af4cd93a8b
 # ╠═708f5925-d7ac-4a93-8251-bc62d49d7ed2
 # ╠═83eab7e5-aae4-4880-9531-d0a8e5a7e5dc
 # ╟─00000000-0000-0000-0000-000000000001

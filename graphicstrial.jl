@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.46
+# v0.20.0
 
 using Markdown
 using InteractiveUtils
@@ -103,28 +103,28 @@ begin
 		""")
 end
 
-# ╔═╡ 0719020b-b8ef-41b2-b442-642d4c293603
-player_action
-
 # ╔═╡ b3facd0e-2956-4f0b-8ed9-a65390fcfb7b
 begin
-	update_table
+	player_action
 	
-    println("**Player's Hand:**")
-    DeckDefinitions.display_hand(game_state[:player_hand], "Player")
-    println("Current player hand value:")
-    println(DeckDefinitions.hand_value(game_state[:player_hand]))
+    md"""**Player's Hand:**"""
+    md"""$(DeckDefinitions.display_hand(game_state[:player_hand], "Player"))"""
+    md"""Current player hand value:"""
+    md"""$(DeckDefinitions.hand_value(game_state[:player_hand]))"""
     
-    println("\n**Dealer's Hand:**")
-    DeckDefinitions.display_hand(game_state[:dealer_hand], "Dealer")
-    println("Current dealer hand value:")
-    println(DeckDefinitions.hand_value(game_state[:dealer_hand]))
+    md"""\n**Dealer's Hand:**"""
+    md"""$(DeckDefinitions.display_hand(game_state[:dealer_hand], "Dealer"))"""
+    md"""Current dealer hand value:"""
+    md"""$(DeckDefinitions.hand_value(game_state[:dealer_hand]))"""
     
     if game_state[:game_over]
-        println("\n**Result:**")
-        println(game_state[:message])
+        md"""\n**Result:**"""
+        md"""$(game_state[:message])"""
     end
 end
+
+# ╔═╡ 0719020b-b8ef-41b2-b442-642d4c293603
+player_action
 
 # ╔═╡ 83eab7e5-aae4-4880-9531-d0a8e5a7e5dc
 begin		
@@ -157,14 +157,9 @@ begin
 	        end
 	        # Mettre à jour la dernière action du joueur
 		    game_state[:last_player_action] = nothing
-			global update_table = update_table + 1
+			
 	    end
 	end
-
-# ╔═╡ a4692307-1e82-423a-99e7-eb60f7a521a6
-begin
-	update_table = 0
-end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -852,11 +847,10 @@ version = "3.5.0+0"
 # ╠═dc58daf4-7ca6-47c0-a8b5-6b1f9d6dd774
 # ╠═372a8228-1215-4dcc-acaf-cf67a485bbfb
 # ╠═ad59fe35-e7a6-45d1-8d54-f5c06718780e
-# ╠═a4692307-1e82-423a-99e7-eb60f7a521a6
 # ╠═b3facd0e-2956-4f0b-8ed9-a65390fcfb7b
 # ╠═0719020b-b8ef-41b2-b442-642d4c293603
-# ╠═1b1bb91f-21a6-4fa5-9c2b-a8af4cd93a8b
-# ╠═708f5925-d7ac-4a93-8251-bc62d49d7ed2
+# ╟─1b1bb91f-21a6-4fa5-9c2b-a8af4cd93a8b
+# ╟─708f5925-d7ac-4a93-8251-bc62d49d7ed2
 # ╠═83eab7e5-aae4-4880-9531-d0a8e5a7e5dc
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

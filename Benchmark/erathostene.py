@@ -12,7 +12,8 @@ def cribble_erathostene(n=10):
     print(index_primes)
     return index_primes
 
+number= 10000
 time_start = time.time()
-cribble_erathostene(n=10000)
+cribble_erathostene(n=number)
 time_final = time.time() - time_start
-print(time_final)
+print("For " + str(number) + ", it took : " + str(time_final) + 'seconds.')

@@ -60,14 +60,20 @@ Jeudi 10/10 : Version de Python. Semble + lente mais à tester précisément, av
 
 Mardi 15/10 : Corrections du code pour tout mettre en anglais. On a essayé de faire l'affichage avec Pluto et autres packages d'affichage. 
 
+Jeudi 17/10 : On a une ébauche (bugué) de notebook Pluto pour le jeu. On essaye donc de réparer ça parce que les boutons ne font pas ce que l'on veut. Possibilités : passer en markdown, nettoyer le code pour séparer les calculs et l'affichage en faisant des fonctions. On veut aussi implémenter le fait d'afficher des images dans le notebook.
+
 Trucs à faire :
+- graphicstrial.jl -> Passer les textes en Markdown plutôt que des prints.
+- graphicstrial.jl -> Séparer les calculs et l'affichage (faire des fonctions).
+- graphicstrial.jl -> Implémenter l'affichage des images dans le notebook.
+
 - Regarder comment on fait de la documentation en Julia.
 - Choisir anglais ou francais et s'y tenir -> Plutôt anglais ?
+
+- Shiny pour l'affichage du jeu en R.
 Gary :
-- Faire un projet pour benchmark R et Julia
-- Tester avec PythonCall dans Julia pour les tester en même temps pour n=10 000
-Danielle :
-- Coder le blackjack en R
+- Faire un projet pour benchmark R et Julia et Python
+- Tester avec PythonCall dans Julia pour les tester en même temps pour différentes valeurs de n.
 Lancelot :
 - Interface graphique pluto pour le jeu en Julia
 

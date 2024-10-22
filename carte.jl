@@ -33,9 +33,6 @@ function value(c::Card)
 end
 
 
-carte_ex = Card("hearts","king")
-print(value(carte_ex))
-
 export Card, value, suits, ranks, dico_card_value
 
 end

@@ -45,6 +45,30 @@ end
 # ╔═╡ f0b16815-c0b9-4fb9-a02e-a50f617e8e1b
 # Fonctions de jeu
 
+# ╔═╡ cf5e28e7-d3f0-446f-8859-3016f9940b76
+begin
+    # Initialisation de l'état du jeu
+	function game_initialization()
+        blackjack_deck = DeckDefinitions.create_blackjack_deck(6)
+    	shuffle!(blackjack_deck)
+    	player_hand = DeckDefinitions.create_empty_hand()
+        dealer_hand = DeckDefinitions.create_empty_hand()
+    	DeckDefinitions.take_a_card(blackjack_deck, player_hand)
+    	DeckDefinitions.take_a_card(blackjack_deck, dealer_hand)
+        DeckDefinitions.take_a_card(blackjack_deck, player_hand)
+    	game_state = Dict(
+        	:deck => blackjack_deck,
+            :player_hand => player_hand,
+            :dealer_hand => dealer_hand,
+            :game_over => false,
+            :message => "",
+			:last_player_action => nothing
+        	)
+		player_action = "null"
+		return blackjack_deck, game_state
+	end
+end
+
 # ╔═╡ deb75b83-b747-4e5b-8779-96e2ea630688
 # Fonctions d'affichages et de boutons
 
@@ -66,27 +90,80 @@ button.addEventListener("click", () => {
 </div>
 """)
 
-# ╔═╡ cf5e28e7-d3f0-446f-8859-3016f9940b76
+# ╔═╡ 258f99e8-fb45-42d8-83fc-409b5812f7fd
+# Si aucune partie n'est définie ou si le bouton newgame est cliqué, on lance une nouvelle partie
 begin
-    # Initialisation de l'état du jeu
-	
-    if !@isdefined(game_state) || newgame !== nothing
-        blackjack_deck = DeckDefinitions.create_blackjack_deck(6)
-        shuffle!(blackjack_deck)
-        player_hand = DeckDefinitions.create_empty_hand()
-        dealer_hand = DeckDefinitions.create_empty_hand()
-        DeckDefinitions.take_a_card(blackjack_deck, player_hand)
-        DeckDefinitions.take_a_card(blackjack_deck, dealer_hand)
-        DeckDefinitions.take_a_card(blackjack_deck, player_hand)
-        game_state = Dict(
-            :deck => blackjack_deck,
-            :player_hand => player_hand,
-            :dealer_hand => dealer_hand,
-            :game_over => false,
-            :message => "",
-			:last_player_action => nothing
-        )
-		game_state[:last_player_action] = nothing
+if @isdefined(game_state) == false || newgame !== nothing
+	blackjack_deck, game_state = game_initialization()
+end
+end
+
+# ╔═╡ bd182e8b-9bc0-4a32-8d05-7aa751f5a8c7
+begin		
+	# On regarde si 
+	# 1.player_action est defini
+	# 2. Si le joueur a fait une action
+	# 3. Si la nouvelle action est différente de l'ancienne ??
+	# 4. Si le jeu n'est pas fini.
+	function update_game(action)
+		if game_state[:game_over] != true
+			if action == "hit"
+				# Le joueur prend une carte
+	        	DeckDefinitions.take_a_card(game_state[:deck], game_state[:player_hand])
+	            
+				# Vérifier si le joueur a dépassé 21
+	        	if DeckDefinitions.hand_value(game_state[:player_hand]) > 21
+	            	game_state[:game_over] = true
+	            	game_state[:message] = "You went over 21! You lost."
+	        	end
+	        
+			elseif action == "stand"
+	        	# Le joueur s'arrête, le dealer joue
+	        	game_state[:game_over] = true
+	            
+				# Logique pour le dealer
+	        	while DeckDefinitions.hand_value(game_state[:dealer_hand]) < 17
+	            	DeckDefinitions.take_a_card(game_state[:deck], game_state[:dealer_hand])
+	        	end
+	            
+				# Déterminer le gagnant
+	        	player_score = DeckDefinitions.hand_value(game_state[:player_hand])
+	        	dealer_score = DeckDefinitions.hand_value(game_state[:dealer_hand])
+	        	if dealer_score > 21 || player_score > dealer_score
+	            	game_state[:message] = "You won!"
+	        	elseif dealer_score > player_score
+	            	game_state[:message] = "The dealer won..."
+	        	else
+	            	game_state[:message] = "Draw."
+	        	end
+	    	end
+			
+	    	# Mettre à jour la dernière action du joueur pour ne pas boucler à l'infini
+			player_action = "null"
+		end
+	end
+end
+
+# ╔═╡ ce5d507f-1d62-47ec-909f-3dad97bc807d
+game_state[:last_player_action]
+
+# ╔═╡ 50857b6c-4515-4818-a7e6-7e098455d50e
+begin
+	function display_game()
+    	println("**Player's Hand:**")
+    	DeckDefinitions.display_hand(game_state[:player_hand], "Player")
+    	println("Current player hand value:")
+    	println(DeckDefinitions.hand_value(game_state[:player_hand]))
+    
+    	println("\n**Dealer's Hand:**")
+    	DeckDefinitions.display_hand(game_state[:dealer_hand], "Dealer")
+    	println("Current dealer hand value:")
+    	println(DeckDefinitions.hand_value(game_state[:dealer_hand]))
+    
+    	if game_state[:game_over]
+        	println("\n**Result:**")
+       		println(game_state[:message])
+		end
     end
 end
 
@@ -114,64 +191,30 @@ begin
 		</script>
 		</div>
 		""")
+
+	# Lier la mise_à_jour de player_action à celle de game_state[:last_player_action]
+	
 end
 
-# ╔═╡ bd182e8b-9bc0-4a32-8d05-7aa751f5a8c7
-begin		
-	    if !ismissing(player_action) && player_action !== game_state[:last_player_action] && !game_state[:game_over]
-	        if player_action == "hit"
-	            # Le joueur prend une carte
-	            DeckDefinitions.take_a_card(game_state[:deck], game_state[:player_hand])
-	            # Vérifier si le joueur a dépassé 21
-	            if DeckDefinitions.hand_value(game_state[:player_hand]) > 21
-	                game_state[:game_over] = true
-	                game_state[:message] = "You went over 21! You lost."
-	            end
-	        elseif player_action == "stand"
-	            # Le joueur s'arrête, le dealer joue
-	            game_state[:game_over] = true
-	            # Logique pour le dealer
-	            while DeckDefinitions.hand_value(game_state[:dealer_hand]) < 17
-	                DeckDefinitions.take_a_card(game_state[:deck], game_state[:dealer_hand])
-	            end
-	            # Déterminer le gagnant
-	            player_score = DeckDefinitions.hand_value(game_state[:player_hand])
-	            dealer_score = DeckDefinitions.hand_value(game_state[:dealer_hand])
-	            if dealer_score > 21 || player_score > dealer_score
-	                game_state[:message] = "You won!"
-	            elseif dealer_score > player_score
-	                game_state[:message] = "The dealer won..."
-	            else
-	                game_state[:message] = "Draw."
-	            end
-	        end
-	        # Mettre à jour la dernière action du joueur
-		    game_state[:last_player_action] = nothing
-			
-	    end
-	end
-
-# ╔═╡ ce5d507f-1d62-47ec-909f-3dad97bc807d
+# ╔═╡ 3fc2a02a-77e3-4e06-a110-03d0d1c9da0d
 player_action
 
-# ╔═╡ 3fc2a02a-77e3-4e06-a110-03d0d1c9da0d
-begin
-	player_action
-	
-    println("**Player's Hand:**")
-    DeckDefinitions.display_hand(game_state[:player_hand], "Player")
-    println("Current player hand value:")
-    println(DeckDefinitions.hand_value(game_state[:player_hand]))
-    
-    println("\n**Dealer's Hand:**")
-    DeckDefinitions.display_hand(game_state[:dealer_hand], "Dealer")
-    println("Current dealer hand value:")
-    println(DeckDefinitions.hand_value(game_state[:dealer_hand]))
-    
-    if game_state[:game_over]
-        println("\n**Result:**")
-        println(game_state[:message])
-    end
+# ╔═╡ e14aa144-9fb8-400d-b0f5-ca38d5a797f9
+# Mise à jour de la valeur de game_state[:last_player_action] selon le choix fait par le joueur.
+if ismissing(player_action) == false
+		if player_action == "hit"
+			update_game("hit")
+			display_game()
+		elseif player_action == "stand"
+			update_game("stand")
+			display_game()
+		end
+end
+
+# ╔═╡ d9362b77-20a8-4b84-929b-e90c9225dc81
+if @isdefined(game_state) == true
+	print("Hello")
+	display_game()
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -863,11 +906,15 @@ version = "3.5.0+0"
 # ╠═f3a61e2f-06f6-40e5-ba49-71c5040aed52
 # ╠═f0b16815-c0b9-4fb9-a02e-a50f617e8e1b
 # ╠═cf5e28e7-d3f0-446f-8859-3016f9940b76
+# ╠═258f99e8-fb45-42d8-83fc-409b5812f7fd
 # ╠═bd182e8b-9bc0-4a32-8d05-7aa751f5a8c7
 # ╠═ce5d507f-1d62-47ec-909f-3dad97bc807d
 # ╠═deb75b83-b747-4e5b-8779-96e2ea630688
 # ╠═3fc2a02a-77e3-4e06-a110-03d0d1c9da0d
+# ╠═50857b6c-4515-4818-a7e6-7e098455d50e
 # ╟─cf6640d3-5f6f-4d19-99e6-8ea58f4ad798
 # ╟─207fe6a9-49cb-455d-a290-2ce04772bb8a
+# ╠═e14aa144-9fb8-400d-b0f5-ca38d5a797f9
+# ╠═d9362b77-20a8-4b84-929b-e90c9225dc81
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

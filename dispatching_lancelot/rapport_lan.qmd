@@ -1,0 +1,566 @@
+R :
+
+code :
+```{r}
+# Classes S3 pour les expressions
+Constante <- function(value) {
+  structure(list(value = value), class = "Constante")
+}
+
+Variable <- function(name = "x") {
+  structure(list(name = name), class = "Variable")
+}
+
+Addition <- function(left, right) {
+  structure(list(left = left, right = right), class = "Addition")
+}
+
+Multiplication <- function(left, right) {
+  structure(list(left = left, right = right), class = "Multiplication")
+}
+
+Puissance <- function(base, exponent) {
+  structure(list(base = base, exponent = exponent), class = "Puissance")
+}
+
+Fonction <- function(func, arg) {
+  structure(list(func = func, arg = arg), class = "Fonction")
+}
+
+# Fonction générique derivative
+derivative <- function(expr, var = "x") {
+  UseMethod("derivative")
+}
+
+# Méthodes derivative pour chaque classe
+derivative.Constante <- function(expr, var = "x") {
+  Constante(0)
+}
+
+derivative.Variable <- function(expr, var = "x") {
+  if (expr$name == var) {
+    Constante(1)
+  } else {
+    Constante(0)
+  }
+}
+
+derivative.Addition <- function(expr, var = "x") {
+  Addition(derivative(expr$left, var), derivative(expr$right, var))
+}
+
+derivative.Multiplication <- function(expr, var = "x") {
+  Addition(
+    Multiplication(derivative(expr$left, var), expr$right),
+    Multiplication(expr$left, derivative(expr$right, var))
+  )
+}
+
+derivative.Puissance <- function(expr, var = "x") {
+  n <- expr$exponent
+  u <- expr$base
+  Multiplication(
+    Multiplication(Constante(n), Puissance(u, n - 1)),
+    derivative(u, var)
+  )
+}
+
+derivative.Fonction <- function(expr, var = "x") {
+  f <- expr$func
+  u <- expr$arg
+  u_prime <- derivative(u, var)
+  
+  switch(f,
+         sin = Multiplication(Fonction("cos", u), u_prime),
+         cos = Multiplication(Constante(-1), Multiplication(Fonction("sin", u), u_prime)),
+         exp = Multiplication(Fonction("exp", u), u_prime),
+         log = Multiplication(Multiplication(Constante(1), Puissance(u, -1)), u_prime),
+         stop(paste("Fonction non prise en charge:", f))
+  )
+}
+
+# Fonction générique simplify
+simplify <- function(expr) {
+  UseMethod("simplify")
+}
+
+# Méthodes simplify pour chaque classe
+simplify.Constante <- function(expr) {
+  expr
+}
+
+simplify.Variable <- function(expr) {
+  expr
+}
+
+simplify.Addition <- function(expr) {
+  left <- simplify(expr$left)
+  right <- simplify(expr$right)
+  
+  if (inherits(left, "Constante") && left$value == 0) {
+    return(right)
+  }
+  if (inherits(right, "Constante") && right$value == 0) {
+    return(left)
+  }
+  if (inherits(left, "Constante") && inherits(right, "Constante")) {
+    return(Constante(left$value + right$value))
+  }
+  Addition(left, right)
+}
+
+simplify.Multiplication <- function(expr) {
+  left <- simplify(expr$left)
+  right <- simplify(expr$right)
+  
+  if ((inherits(left, "Constante") && left$value == 0) || 
+      (inherits(right, "Constante") && right$value == 0)) {
+    return(Constante(0))
+  }
+  if (inherits(left, "Constante") && left$value == 1) {
+    return(right)
+  }
+  if (inherits(right, "Constante") && right$value == 1) {
+    return(left)
+  }
+  if (inherits(left, "Constante") && inherits(right, "Constante")) {
+    return(Constante(left$value * right$value))
+  }
+  Multiplication(left, right)
+}
+
+simplify.Puissance <- function(expr) {
+  base <- simplify(expr$base)
+  exponent <- expr$exponent
+  
+  if (exponent == 0) {
+    return(Constante(1))
+  }
+  if (exponent == 1) {
+    return(base)
+  }
+  if (inherits(base, "Constante")) {
+    return(Constante(base$value ^ exponent))
+  }
+  Puissance(base, exponent)
+}
+
+simplify.Fonction <- function(expr) {
+  arg <- simplify(expr$arg)
+  
+  if (inherits(arg, "Constante")) {
+    value <- switch(expr$func,
+                    sin = sin(arg$value),
+                    cos = cos(arg$value),
+                    exp = exp(arg$value),
+                    log = log(arg$value),
+                    stop(paste("Fonction non prise en charge:", expr$func))
+    )
+    return(Constante(value))
+  }
+  Fonction(expr$func, arg)
+}
+
+# Fonction générique print
+print <- function(expr, ...) {
+  UseMethod("print")
+}
+
+# Méthodes print pour chaque classe
+print.Constante <- function(expr, ...) {
+  cat(expr$value)
+}
+
+print.Variable <- function(expr, ...) {
+  cat(expr$name)
+}
+
+print.Addition <- function(expr, ...) {
+  print(expr$left)
+  cat(" + ")
+  print(expr$right)
+}
+
+print.Multiplication <- function(expr, ...) {
+  left_needs_parens <- inherits(expr$left, c("Addition"))
+  right_needs_parens <- inherits(expr$right, c("Addition"))
+  
+  if (left_needs_parens) {
+    cat("(")
+    print(expr$left)
+    cat(")")
+  } else {
+    print(expr$left)
+  }
+  cat(" * ")
+  if (right_needs_parens) {
+    cat("(")
+    print(expr$right)
+    cat(")")
+  } else {
+    print(expr$right)
+  }
+}
+
+print.Puissance <- function(expr, ...) {
+  base_needs_parens <- inherits(expr$base, c("Addition", "Multiplication"))
+  
+  if (base_needs_parens) {
+    cat("(")
+    print(expr$base)
+    cat(")")
+  } else {
+    print(expr$base)
+  }
+  cat("^")
+  cat(expr$exponent)
+}
+
+print.Fonction <- function(expr, ...) {
+  cat(expr$func, "(")
+  print(expr$arg)
+  cat(")")
+}
+```
+
+test 1 :
+```{r}
+# Exemple 1
+
+x <- Variable("x")
+
+# f(x) = x^2 + 3x + 5
+expr <- Addition(
+  Addition(
+    Puissance(x, 2),
+    Multiplication(Constante(3), x)
+  ),
+  Constante(5)
+)
+
+# Calcul de la dérivée
+
+d_expr <- derivative(expr, "x")
+d_expr
+```
+
+test 2 : 
+```{r}
+# Exemple 2
+
+expr2 <- Fonction("sin", Puissance(x, 2))
+d_expr2 <- derivative(expr2, "x")
+d_expr2
+```
+
+Dans le fichier derivative_r.R, la fonction generique derivative() utilise UseMethod("derivative") pour déléguer l'appel à une methode spécifique en fonction de la classe de l'argument expr. C'est un mecanisme de simple_dispathcing qui redirige vers la methode appropriée en fonction de la classe de l'expression donnée.
+
+```{r}
+derivative <- function(expr, var = "x") {
+  UseMethod("derivative")
+}
+```
+
+Pour chaque type d'expression (constante, variable, addition, multiplication, etc), une methode spécifique est définie.
+
+- Pour les constantes, la derivée est toujours 0 :
+```{r}
+derivative.Constante <- function(expr, var = "x") {
+  Constante(0)
+}
+```
+
+- Pour les variables, la derivée dépends de si la variable corresponds à celle par rapport à laquelle on derive :
+
+```{r}
+derivative.Variable <- function(expr, var = "x") {
+  if (expr$name == var) {
+    Constante(1)
+  } else {
+    Constante(0)
+  }
+}
+```
+
+- Pour les opérations telles que l'addition ou la multiplication, les règles classiques de dérivation sont appliquées :
+
+```{r}
+derivative.Addition <- function(expr, var = "x") {
+  Addition(derivative(expr$left, var), derivative(expr$right, var))
+}
+```
+
+Ce système de dispatch repose sur la sélection de la méthode appropriée basée sur la classe de l'objet passé à la fonction derivative(). Il s'agit d'une illustration classique du dispatch simple dans le système S3 de R, où le choix de la méthode dépend du type d'objet, en l'occurrence les classes associées aux différentes structures mathématiques (constante, variable, opérations, etc.).
+
+Julia :
+```{julia}
+abstract type Expr end
+
+struct Const <: Expr
+    value::Number
+end
+
+struct Var <: Expr
+    name::Symbol
+end
+
+struct Add <: Expr
+    left::Expr
+    right::Expr
+end
+
+struct Mul <: Expr
+    left::Expr
+    right::Expr
+end
+
+struct Pow <: Expr
+    base::Expr
+    exponent::Number
+end
+
+struct Func <: Expr
+    func::Symbol   # :sin, :cos, :exp, :log, etc.
+    arg::Expr
+end
+```
+
+
+```{julia}
+function derivative(e::Const, var::Symbol)
+    return Const(0)
+end
+
+# Derivée d'une variable
+function derivative(e::Var, var::Symbol)
+    if e.name == var
+        return Const(1)
+    else
+        return Const(0)
+    end
+end
+
+# Derivée d'une addition
+function derivative(e::Add, var::Symbol)
+    left_deriv = derivative(e.left, var)
+    right_deriv = derivative(e.right, var)
+    return Add(left_deriv, right_deriv)
+end
+
+# Derivée d'une multiplication
+function derivative(e::Mul, var::Symbol)
+    left_deriv = derivative(e.left, var)
+    right_deriv = derivative(e.right, var)
+    return Add(Mul(left_deriv, e.right), Mul(e.left, right_deriv))
+end
+
+# Derivée d'une puissance
+function derivative(e::Pow, var::Symbol)
+    n = e.exponent
+    u = e.base
+    u_deriv = derivative(u, var)
+    return Mul(Mul(Const(n), Pow(u, n - 1)), u_deriv)
+end
+
+# Derivée d'une fonction
+function derivative(e::Func, var::Symbol)
+    f = e.func
+    u = e.arg
+    u_deriv = derivative(u, var)
+    return Mul(func_derivative(f, u), u_deriv)
+end
+
+# Fonction auxiliaire pour les dérivées des fonctions de base
+function func_derivative(f::Symbol, u::Expr)
+    if f == :sin
+        return Func(:cos, u)
+    elseif f == :cos
+        return Mul(Const(-1), Func(:sin, u))
+    elseif f == :exp
+        return Func(:exp, u)
+    elseif f == :log
+        return Pow(u, -1)
+    else
+        error("Fonction non prise en charge: $f")
+    end
+end
+
+# Simplifications
+
+function simplify(e::Const)
+    return e
+end
+
+function simplify(e::Var)
+    return e
+end
+
+function simplify(e::Add)
+    left = simplify(e.left)
+    right = simplify(e.right)
+
+    # Si l'un des opérandes est zéro
+    if left isa Const && left.value == 0
+        return right
+    elseif right isa Const && right.value == 0
+        return left
+    # Si les deux opérandes sont des constantes
+    elseif left isa Const && right isa Const
+        return Const(left.value + right.value)
+    else
+        return Add(left, right)
+    end
+end
+
+function simplify(e::Mul)
+    left = simplify(e.left)
+    right = simplify(e.right)
+
+    # Si l'un des opérandes est zéro
+    if (left isa Const && left.value == 0) || (right isa Const && right.value == 0)
+        return Const(0)
+    # Si l'un des opérandes est un
+    elseif left isa Const && left.value == 1
+        return right
+    elseif right isa Const && right.value == 1
+        return left
+    # Si les deux opérandes sont des constantes
+    elseif left isa Const && right isa Const
+        return Const(left.value * right.value)
+    else
+        return Mul(left, right)
+    end
+end
+
+function simplify(e::Pow)
+    base = simplify(e.base)
+    exponent = e.exponent
+
+    # Exposant zéro
+    if exponent == 0
+        return Const(1)
+    # Exposant un
+    elseif exponent == 1
+        return base
+    # Si la base est une constante
+    elseif base isa Const
+        return Const(base.value ^ exponent)
+    else
+        return Pow(base, exponent)
+    end
+end
+
+function simplify(e::Func)
+    arg = simplify(e.arg)
+
+    # Si l'argument est une constante, évaluer la fonction
+    if arg isa Const
+        value = evalfunc(e.func, arg.value)
+        return Const(value)
+    else
+        return Func(e.func, arg)
+    end
+end
+
+function evalfunc(f::Symbol, x::Number)
+    if f == :sin
+        return sin(x)
+    elseif f == :cos
+        return cos(x)
+    elseif f == :exp
+        return exp(x)
+    elseif f == :log
+        return log(x)
+    else
+        error("Fonction non prise en charge: $f")
+    end
+end
+
+# Affichage des résultats
+
+function Base.show(io::IO, e::Const)
+    print(io, e.value)
+end
+
+function Base.show(io::IO, e::Var)
+    print(io, e.name)
+end
+
+function Base.show(io::IO, e::Add)
+    print(io, "(")
+    print(io, e.left)
+    print(io, " + ")
+    print(io, e.right)
+    print(io, ")")
+end
+
+function Base.show(io::IO, e::Mul)
+    left_needs_parens = e.left isa Add
+    right_needs_parens = e.right isa Add
+
+    if left_needs_parens
+        print(io, "(")
+        print(io, e.left)
+        print(io, ")")
+    else
+        print(io, e.left)
+    end
+
+    print(io, " * ")
+
+    if right_needs_parens
+        print(io, "(")
+        print(io, e.right)
+        print(io, ")")
+    else
+        print(io, e.right)
+    end
+end
+
+function Base.show(io::IO, e::Pow)
+    base_needs_parens = e.base isa Add || e.base isa Mul
+
+    if base_needs_parens
+        print(io, "(")
+        print(io, e.base)
+        print(io, ")")
+    else
+        print(io, e.base)
+    end
+
+    print(io, "^")
+    print(io, e.exponent)
+end
+
+function Base.show(io::IO, e::Func)
+    print(io, string(e.func))
+    print(io, "(")
+    print(io, e.arg)
+    print(io, ")")
+end
+```
+
+
+```{julia}
+# Exemple : 
+x = Var(:x)
+
+## f(x) = x^2 + 3x + 5
+expr = Add(
+    Add(
+        Pow(x, 2),
+        Mul(Const(3), x)
+    ),
+    Const(5)
+)
+
+## Calcul de la derivée
+d_expr = derivative(expr, :x)
+
+## Simplification
+
+d_expr_simplified = simplify(d_expr)
+
+println(d_expr_simplified)
+```
+

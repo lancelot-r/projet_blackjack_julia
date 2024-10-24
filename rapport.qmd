@@ -1,5 +1,5 @@
 # Projet Black Jack
-Noms : Lancelot Ravier, Danielle El khoury, Garance Malnoë
+Noms : Lancelot Ravier, Danielle El Khoury, Garance Malnoë
 Idée de projet : Jeu de blackjack codé en Julia avec une interface graphique et en R avec Shiny.
 
 # Déroulement d'une partie (sans les mises): 
@@ -67,17 +67,17 @@ Jeudi 17/10 : On a une ébauche (bugué) de notebook Pluto pour le jeu. On essay
 On également travaillé sur un deuxième projet mettant en oeuvre le simple/multiple dispatching (R/Julia) avec du calcul de dérivées.
 
 Lundi 21/10 : Essai de nettoyer un peu le notebook Pluto. Recherche de moyen de debbug un notebook pluto mais ça n'est pas disponible directement dans Pluto et la librairie (https://github.com/disberd/PlutoVSCodeDebugger.jl) proposant de le faire dans VSCode n'a pas été update depuis plusieurs mois (presque 1an) donc pas moyen de faire le cheminement de penser du notebook sans faire du débug cochon. Première mise à jour du notebook pluto, sentiment qu'on est pas loin mais toujours soucis de mémoire de la valeur de player_action, à terminer.
-# Trucs à faire :
-- graphicstrial.jl -> Passer les textes en Markdown plutôt que des prints.
-- graphicstrial.jl -> Séparer les calculs et l'affichage (faire des fonctions).
-- graphicstrial.jl -> Implémenter l'affichage des images dans le notebook.
 
+Jeudi 24/10 : faire une autre version de la fonction jeu, en divisant la fonction en plusieurs fonctions pour pouvoir juste les appeler pour faire run au jeu dans le terminal et dans Pluto.
+fixer les boutton hit, stand, new game dans Pluto
+
+# Trucs à faire :
+- graphicstrial.jl -> Implémenter l'affichage des images dans le notebook.
 - Regarder comment on fait de la documentation en Julia.
-- Choisir anglais ou francais et s'y tenir -> Plutôt anglais ?
+
 
 - Shiny pour l'affichage du jeu en R.
 Gary :
-- Finir le benchmark
-- Tester avec PythonCall dans Julia pour les tester en même temps pour différentes valeurs de n.
+- Finir le benchmark + Tester avec PythonCall dans Julia pour les tester en même temps pour différentes valeurs de n.
 Lancelot :
 - Interface graphique pluto pour le jeu en Julia

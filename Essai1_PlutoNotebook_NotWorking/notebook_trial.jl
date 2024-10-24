@@ -64,7 +64,7 @@ begin
             :message => "",
 			:last_player_action => nothing
         	)
-		player_action = nothing
+		player_action = "null"
 		return blackjack_deck, game_state
 	end
 end
@@ -134,6 +134,7 @@ begin
 	    	end
 			
 	    	# Mettre à jour la dernière action du joueur pour ne pas boucler à l'infini
+			player_action = "null"
 		end
 	end
 end
@@ -159,24 +160,6 @@ begin
        		println(game_state[:message])
 		end
     end
-end
-
-# ╔═╡ d9362b77-20a8-4b84-929b-e90c9225dc81
-if @isdefined(game_state) == true
-	print("Hello")
-	display_game()
-end
-
-# ╔═╡ e14aa144-9fb8-400d-b0f5-ca38d5a797f9
-# Mise à jour de la valeur de game_state[:last_player_action] selon le choix fait par le joueur.
-begin
-if player_action == "hit"
-		update_game("hit")
-		player_action = nothing
-elseif player_action == "stand"
-	update_game("stand")
-	player_action = nothing
-end
 end
 
 # ╔═╡ 207fe6a9-49cb-455d-a290-2ce04772bb8a
@@ -206,6 +189,25 @@ begin
 
 	# Lier la mise_à_jour de player_action à celle de game_state[:last_player_action]
 	
+end
+
+# ╔═╡ 3fc2a02a-77e3-4e06-a110-03d0d1c9da0d
+player_action
+
+# ╔═╡ e14aa144-9fb8-400d-b0f5-ca38d5a797f9
+# Mise à jour de la valeur de game_state[:last_player_action] selon le choix fait par le joueur.
+if ismissing(player_action) == false
+		if player_action == "hit"
+			update_game("hit")
+		elseif player_action == "stand"
+			update_game("stand")
+		end
+end
+
+# ╔═╡ d9362b77-20a8-4b84-929b-e90c9225dc81
+if @isdefined(game_state) == true
+	print("Hello")
+	display_game()
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -901,9 +903,10 @@ version = "3.5.0+0"
 # ╠═bd182e8b-9bc0-4a32-8d05-7aa751f5a8c7
 # ╠═ce5d507f-1d62-47ec-909f-3dad97bc807d
 # ╠═deb75b83-b747-4e5b-8779-96e2ea630688
+# ╠═3fc2a02a-77e3-4e06-a110-03d0d1c9da0d
 # ╠═50857b6c-4515-4818-a7e6-7e098455d50e
-# ╟─cf6640d3-5f6f-4d19-99e6-8ea58f4ad798
-# ╟─207fe6a9-49cb-455d-a290-2ce04772bb8a
+# ╠═cf6640d3-5f6f-4d19-99e6-8ea58f4ad798
+# ╠═207fe6a9-49cb-455d-a290-2ce04772bb8a
 # ╠═e14aa144-9fb8-400d-b0f5-ca38d5a797f9
 # ╠═d9362b77-20a8-4b84-929b-e90c9225dc81
 # ╟─00000000-0000-0000-0000-000000000001

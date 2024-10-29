@@ -68,15 +68,14 @@ On également travaillé sur un deuxième projet mettant en oeuvre le simple/mul
 
 Lundi 21/10 : Essai de nettoyer un peu le notebook Pluto. Recherche de moyen de debbug un notebook pluto mais ça n'est pas disponible directement dans Pluto et la librairie (https://github.com/disberd/PlutoVSCodeDebugger.jl) proposant de le faire dans VSCode n'a pas été update depuis plusieurs mois (presque 1an) donc pas moyen de faire le cheminement de penser du notebook sans faire du débug cochon. Première mise à jour du notebook pluto, sentiment qu'on est pas loin mais toujours soucis de mémoire de la valeur de player_action, à terminer.
 
-Jeudi 24/10 : faire une autre version de la fonction jeu, en divisant la fonction en plusieurs fonctions pour pouvoir juste les appeler pour faire run au jeu dans le terminal et dans Pluto.
-fixer les boutton hit, stand, new game dans Pluto
+Jeudi 24/10 : On a fait une autre version de la fonction jeu, en divisant la fonction en plusieurs fonctions pour pouvoir juste les appeler pour faire run au jeu dans le terminal et dans Pluto.On a fix les boutton hit, stand, new  game dans Pluto avec Vizigram. Toujours un problème dans le Pluto : au début on pensait que c'était parce qu'on n'avait pas le temps de changer la valeur du bouton et donc on a pensé à mettre un sleep dans la boucle pour avoir le temps de cliquer sur les boutons pour changer la valeur de l'input MAIS en fait ça ne marche pas, on ne peut pas update les boutons tant que la fonction game() n'est pas terminée. Autre idée : un wait(condition) pour forcer à changer la valeur du bouton mais c'est un peu flou.
 
 # Trucs à faire :
+- Faire le jeu terminal sans boucle while (next ????)
 - graphicstrial.jl -> Implémenter l'affichage des images dans le notebook.
 - Regarder comment on fait de la documentation en Julia.
-
-
 - Shiny pour l'affichage du jeu en R.
+- GameZero.
 Gary :
 - Finir le benchmark + Tester avec PythonCall dans Julia pour les tester en même temps pour différentes valeurs de n.
 Lancelot :

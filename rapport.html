@@ -48,7 +48,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="projet-black-jack" class="level1">
 <h1>Projet Black Jack</h1>
-<p>Noms : Lancelot Ravier, Danielle El khoury, Garance Malnoë Idée de projet : Jeu de blackjack codé en Julia avec une interface graphique et en R avec Shiny.</p>
+<p>Noms : Lancelot Ravier, Danielle El Khoury, Garance Malnoë Idée de projet : Jeu de blackjack codé en Julia avec une interface graphique et en R avec Shiny.</p>
 </section>
 <section id="déroulement-dune-partie-sans-les-mises" class="level1">
 <h1>Déroulement d’une partie (sans les mises):</h1>
@@ -80,7 +80,6 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>Fichier main.jl : fonction générale avec les boucles de jeu.</li>
 <li>Fichier carte.jl : Pour définir la classe carte (attributs : String nom, Int valeur, image interface graphique)</li>
-<li>Fichier main_cartes.jl : Pour définir la classe main_carte (attributs : list de carte. Méthode : Calculer la valeur de la main)</li>
 <li>Fichier deck.jl : Pour définir la classe deck (attributs : list de carte. Méthode : distribuer une carte (choisir une carte au hasard, la mettre dans la main de quelquu’un et l’enlever dans la liste de carte du deck)) Note : 6x52 cartes pour 1 deck de base.</li>
 <li>Fichier jeu.jl : Pour définir la classe de jeu (attributs : deck, deux main_cartes (ordi + joueur))</li>
 </ul>
@@ -90,11 +89,31 @@ ul.task-list li input[type="checkbox"] {
 <pre><code>- Bet
 - Plusieurs joueurs
 - Timer</code></pre>
+</section>
+<section id="journal" class="level1">
+<h1>Journal</h1>
 <p>Jeudi 26/09 : Choix du sujet, écriture des règles et idées supplémentaires et définition de la structure du projet en Julia (classes). Création des fichiers pour les différentes classes et tentative (infructueuse) de définition d’une classe en Julia avec la classe carte.</p>
 <p>Mardi 01/10 : Mise en commun de ce qu’a cherché Lancelot durant le weekend : fonction de création de carte, de deck de 52 cartes, de deck de blackjack et mélanger un deck. Reflexions sur l’affichage : dash.jl, maki.jl, pluto.jl -&gt; pour faire du html / javascript et avoir quelque chose d’intéractif. Question en cours sur les notions de simple vs multiple dispatching expliqué par Remy. Galères avec github : on choisit de partir sur un fonctionnement en branches ou en fork pour séparer notre travail.</p>
-<p>Mercredi 02/10 : Ré-adaptation des fonction de création de deck de blackjack et de mélange de deck. On a créé 2 fonctions shuffle et shuffle! dans le but d’éviter de devoir recréer le deck de blackjack à chaque partie (dans une session), seulement au début de la session ce qui parait plus optimisé. Problématique pour surcharger / étendre les fonction shuffle(!) déjà existantes dans la librairie Random, on l’importe explicitement. Creation des fonctions de calculs de la valeur d’une main et de tirer une carte. Première boucle de jeu à 1 joueur basique. On a appris comment demander à un utilisateur de rentrer quelque chose dans le terminal.</p>
+<p>Mercredi 02/10 : Ré-adaptation des fonction de création de deck de blackjack et de mélange de deck. On a créé 2 fonctions shuffle et shuffle! dans le but d’éviter de devoir recréer le deck de blackjack à chaque partie (dans une session), seulement au début de la session ce qui parait plus optimisé. Problématique pour surcharger / étendre les fonction shuffle(!) déjà existantes dans la librairie Random, on l’importe explicitement. Creation des fonctions de calculs de la valeur d’une main et de tirer une carte. Première boucle de jeu à 1 joueur basique. On a appris comment demander à un utilisateur de rentrer quelque chose dans le terminal. Choix d’avoir une seule struct Deck à la fois pour le paquet de carte et pour les mains puisque les deux sont composés d’un vect de Carte.</p>
 <p>Jeudi 03/10: Mise en commun de ce que chacun a fait Mercredi. On a réparé et amélioré les boucles d’affichage de la valeur d’une main et de la boucle de jeu (problèmes sur les conditions de fin de jeu) et création d’une fonction d’affichage de la main du joueur (les cartes). On a fait plusieurs parties pour tester (et repérer les erreurs). On s’est rendu compte qu’il y avait une version amércaine et une version européenne des règles, on décide de partir sur la version européenne pour le moment car la règle supplémentaire des américains est basée sur la notion de pari / bet que l’on a pas encore implémentée. On a appris à faire concaténation de String avec s1 * s2.</p>
-<p>Trucs à faire : - Regarder comment on fait de la documentation en Julia. - Choisir anglais ou francais et s’y tenir. - Mettre les images.</p>
+<p>Mardi 08/10 : On a appris à créer des pull request et résoudre les conflits sur GitHub à partir du travail qu’avait fait Danielle durant le weekend. Création de module pour les appeler dans pluto. Création du pluto avec les fonctions dedans. Vizagrams -&gt; Création de svg qui s’affichents dans pluto.</p>
+<p>Jeudi 10/10 : Version du blackjack en Python. Semble + lente mais à tester précisément, avantage c’est qu’on a pas à tapper 2 fois dans la console comme en Julia donc évite les “erreurs” dans le terminal, simple à mettre en place une fois qu’on a fait le travail en Julia. Version du blackjack dans R: On a vu vraimant la difference entre R et Julia. Julia ne change pas la classe des var en utilisant des fonction, alors que dans R, par exemple: en appliquant la fct “sample” elle change la classe deck en une classe list pour laisser la classe telle quelle, on a utiliser Deck(sample(…)). On a aussi utiliser explicitement le single dispatching dans R en utilisant pour shuffle la UseMethod.</p>
+<p>Mardi 15/10 : Corrections du code pour tout mettre en anglais. On a essayé de faire l’affichage avec Pluto et autres packages d’affichage.</p>
+<p>Jeudi 17/10 : On a une ébauche (bugué) de notebook Pluto pour le jeu. On essaye donc de réparer ça parce que les boutons ne font pas ce que l’on veut (problème de réinitiailisation, que modifie le notebook en premier et donc est-ce que les modifications sont bien faites dans l’ordre). Possibilités : passer en markdown, nettoyer le code pour séparer les calculs et l’affichage en faisant des fonctions. On veut aussi implémenter le fait d’afficher des images dans le notebook. On également travaillé sur un deuxième projet mettant en oeuvre le simple/multiple dispatching (R/Julia) avec du calcul de dérivées.</p>
+<p>Lundi 21/10 : Essai de nettoyer un peu le notebook Pluto. Recherche de moyen de debbug un notebook pluto mais ça n’est pas disponible directement dans Pluto et la librairie (https://github.com/disberd/PlutoVSCodeDebugger.jl) proposant de le faire dans VSCode n’a pas été update depuis plusieurs mois (presque 1an) donc pas moyen de faire le cheminement de penser du notebook sans faire du débug cochon. Première mise à jour du notebook pluto, sentiment qu’on est pas loin mais toujours soucis de mémoire de la valeur de player_action, à terminer.</p>
+<p>Jeudi 24/10 : On a fait une autre version de la fonction jeu, en divisant la fonction en plusieurs fonctions pour pouvoir juste les appeler pour faire run au jeu dans le terminal et dans Pluto.On a fix les boutton hit, stand, new game dans Pluto avec Vizigram. Toujours un problème dans le Pluto : au début on pensait que c’était parce qu’on n’avait pas le temps de changer la valeur du bouton et donc on a pensé à mettre un sleep dans la boucle pour avoir le temps de cliquer sur les boutons pour changer la valeur de l’input MAIS en fait ça ne marche pas, on ne peut pas update les boutons tant que la fonction game() n’est pas terminée. Autre idée : un wait(condition) pour forcer à changer la valeur du bouton mais c’est un peu flou.</p>
+</section>
+<section id="trucs-à-faire" class="level1">
+<h1>Trucs à faire :</h1>
+<ul>
+<li>Faire le jeu terminal sans boucle while (next ????)</li>
+<li>graphicstrial.jl -&gt; Implémenter l’affichage des images dans le notebook.</li>
+<li>Regarder comment on fait de la documentation en Julia.</li>
+<li>Shiny pour l’affichage du jeu en R.</li>
+<li>GameZero. Gary :</li>
+<li>Finir le benchmark + Tester avec PythonCall dans Julia pour les tester en même temps pour différentes valeurs de n. Lancelot :</li>
+<li>Interface graphique pluto pour le jeu en Julia</li>
+</ul>
 </section>
 
 </main>

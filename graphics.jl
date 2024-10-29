@@ -3,7 +3,7 @@ using GameZero
 
 WIDTH = 800
 HEIGHT = 600
-BACKGROUND=colorant"green"
+BACKGROUND = colorant"green"
 MARGIN_Y = 50
 
 DEALER_W = 400
@@ -24,7 +24,7 @@ dealer_score = Circle(DEALER_X + DEALER_W + 100, DEALER_Y + DEALER_H ÷ 4 * 3, 5
 start_game_button = Rect(100, 800, 50, 50)
 test = Circle(100, 500, 50)
 
-function draw(g::Game) 
+function draw(g::Game)
     draw(dealer_card_space, colorant"black", fill=true)
     draw(player_card_space, colorant"black", fill=true)
     draw(player_score, colorant"white", fill=true)

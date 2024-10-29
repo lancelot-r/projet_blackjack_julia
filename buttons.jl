@@ -23,11 +23,23 @@ begin
 	using LaTeXStrings
 end
 
+# ╔═╡ e0e458ec-6233-4fe1-b4b4-a4c689f7ef37
+begin
+	include("carte.jl")
+	using .CardDefinitions
+	include("deck.jl")
+	using .DeckDefinitions
+	include("jeu.jl")
+	using .GameDefinition
+	include("main.jl")
+	using .PlayGame
+end
+
 # ╔═╡ 4a0f587d-2812-485e-9e5b-caf733dd5d69
 begin
     d = (S(:__id => :"newgame", :fill => :green)Circle()+TextMark(text="New Game", anchor=:c, fontsize=0.2)
 	→ (T(3,0),S(:__id => :"hit", :fill => :green)Circle()+ TextMark(text="Hit", anchor=:c, fontsize=0.2)
-	→ (T(0.5,0),S(:__id => :"draw", :fill => :green)Circle()+ TextMark(text="Draw", anchor=:c, fontsize=0.2)
+	→ (T(0.5,0),S(:__id => :"stand", :fill => :green)Circle()+ TextMark(text="Stand", anchor=:c, fontsize=0.2)
 	)))
     
     svgp = draw(d, height=100; :id => :graph)
@@ -59,6 +71,22 @@ end
 """
 )
 
+# ╔═╡ cd0abcc6-3392-4684-aa1d-e34e50a3ad55
+function game()
+    blackjack_deck,player_hand,dealer_hand = GameDefinition.initialize_game()
+    end_game = false
+    GameDefinition.display_game(player_hand,dealer_hand,end_game)
+    while !end_game
+		sleep(5)
+        blackjack_deck,player_hand,dealer_hand,end_game = GameDefinition.input_player(svgelt,blackjack_deck,player_hand,dealer_hand)
+        GameDefinition.display_game(player_hand,dealer_hand,end_game)
+	end
+end
+
+
+# ╔═╡ 764d8e6a-fc4c-4f7c-96cc-86d9cb8c2838
+game()
+
 # ╔═╡ 8d9b286e-05a2-442a-abf5-de1d5e0b5784
 svgelt
 
@@ -70,12 +98,6 @@ LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Vizagrams = "8c229dad-8b3a-4031-83d6-73545c88426d"
-
-[compat]
-HypertextLiteral = "~0.9.5"
-LaTeXStrings = "~1.4.0"
-PlutoUI = "~0.7.60"
-Vizagrams = "~0.2.10"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -84,7 +106,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.10.5"
 manifest_format = "2.0"
-project_hash = "3006eb9a93433e7313e059d7f9e3f88ee0063799"
+project_hash = "447ada9e7710b74725aa988961529f62a13fb423"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -121,16 +143,6 @@ version = "0.1.38"
     StructArrays = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"
     Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
     Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
-
-[[deps.Adapt]]
-deps = ["LinearAlgebra", "Requires"]
-git-tree-sha1 = "6a55b747d1812e699320963ffde36f1ebdda4099"
-uuid = "79e6a3ab-5dfb-504d-930d-738a2a938a0e"
-version = "4.0.4"
-weakdeps = ["StaticArrays"]
-
-    [deps.Adapt.extensions]
-    AdaptStaticArraysExt = "StaticArrays"
 
 [[deps.ArgCheck]]
 git-tree-sha1 = "a3a402a35a2f7e0b87828ccabbd5ebfbebe356b4"
@@ -484,9 +496,9 @@ version = "1.0.0"
 
 [[deps.JLLWrappers]]
 deps = ["Artifacts", "Preferences"]
-git-tree-sha1 = "f389674c99bfcde17dc57454011aa44d5a260a40"
+git-tree-sha1 = "be3dc50a92e5a386872a493a10050136d4703f9b"
 uuid = "692b3bcd-3c85-4b1f-b108-f13ce0eb3210"
-version = "1.6.0"
+version = "1.6.1"
 
 [[deps.JSON]]
 deps = ["Dates", "Mmap", "Parsers", "Unicode"]
@@ -501,10 +513,10 @@ uuid = "aacddb02-875f-59d6-b918-886e6ef4fbf8"
 version = "3.0.4+0"
 
 [[deps.LERC_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "bf36f528eec6634efc60d7ec062008f171071434"
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "36bdbc52f13a7d1dcb0f3cd694e01677a515655b"
 uuid = "88015f11-f218-50d7-93a8-a6af411a945d"
-version = "3.0.0+1"
+version = "4.0.0+0"
 
 [[deps.LLVMOpenMP_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -519,9 +531,9 @@ uuid = "dd4b983a-f0e5-5f8d-a1b7-129d4a5fb1ac"
 version = "2.10.2+1"
 
 [[deps.LaTeXStrings]]
-git-tree-sha1 = "dda21b8cbd6a6c40d9d02a73230f9d70fed6918c"
+git-tree-sha1 = "50901ebc375ed41dbf8058da26f9de442febbbec"
 uuid = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
-version = "1.4.0"
+version = "1.3.1"
 
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -588,9 +600,9 @@ version = "2.54.5+0"
 
 [[deps.Libtiff_jll]]
 deps = ["Artifacts", "JLLWrappers", "JpegTurbo_jll", "LERC_jll", "Libdl", "XZ_jll", "Zlib_jll", "Zstd_jll"]
-git-tree-sha1 = "6355fb9a4d22d867318db186fd09b09b35bd2ed7"
+git-tree-sha1 = "b404131d06f7886402758c9ce2214b636eb4d54a"
 uuid = "89763e89-9b03-5906-acba-b20f662cd828"
-version = "4.6.0+0"
+version = "4.7.0+0"
 
 [[deps.Libuuid_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -967,12 +979,13 @@ uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
 version = "0.11.3"
 
 [[deps.Transducers]]
-deps = ["Accessors", "Adapt", "ArgCheck", "BangBang", "Baselet", "CompositionsBase", "ConstructionBase", "DefineSingletons", "Distributed", "InitialValues", "Logging", "Markdown", "MicroCollections", "Requires", "SplittablesBase", "Tables"]
-git-tree-sha1 = "5215a069867476fc8e3469602006b9670e68da23"
+deps = ["Accessors", "ArgCheck", "BangBang", "Baselet", "CompositionsBase", "ConstructionBase", "DefineSingletons", "Distributed", "InitialValues", "Logging", "Markdown", "MicroCollections", "Requires", "SplittablesBase", "Tables"]
+git-tree-sha1 = "7deeab4ff96b85c5f72c824cae53a1398da3d1cb"
 uuid = "28d57a85-8fef-5791-bfe6-a80928e7c999"
-version = "0.4.82"
+version = "0.4.84"
 
     [deps.Transducers.extensions]
+    TransducersAdaptExt = "Adapt"
     TransducersBlockArraysExt = "BlockArrays"
     TransducersDataFramesExt = "DataFrames"
     TransducersLazyArraysExt = "LazyArrays"
@@ -980,6 +993,7 @@ version = "0.4.82"
     TransducersReferenceablesExt = "Referenceables"
 
     [deps.Transducers.weakdeps]
+    Adapt = "79e6a3ab-5dfb-504d-930d-738a2a938a0e"
     BlockArrays = "8e7c35d0-a365-5155-bbbb-fb81a777f24e"
     DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
     LazyArrays = "5078a376-72f3-5289-bfd5-ec5146d43c02"
@@ -1122,6 +1136,9 @@ version = "17.4.0+2"
 
 # ╔═╡ Cell order:
 # ╠═b35bf3e2-91d8-11ef-03d3-051c8bc091d7
+# ╠═e0e458ec-6233-4fe1-b4b4-a4c689f7ef37
+# ╠═cd0abcc6-3392-4684-aa1d-e34e50a3ad55
+# ╠═764d8e6a-fc4c-4f7c-96cc-86d9cb8c2838
 # ╠═8d9b286e-05a2-442a-abf5-de1d5e0b5784
 # ╠═0d7d848c-bbaa-4936-a456-c644d374380e
 # ╠═4a0f587d-2812-485e-9e5b-caf733dd5d69

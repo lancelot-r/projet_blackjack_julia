@@ -1,0 +1,31 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Rapport projet"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Acceuil
+
+      - href : blackjack.qmd
+        text : Blackjack
+
+      - href : benchmark.qmd
+        text : Benchmark
+
+      - href : dispatching.qmd
+        text : Dispatching
+        
+      - href : journal.qmd
+        text : Journal
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+
+

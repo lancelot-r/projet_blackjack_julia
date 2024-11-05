@@ -56,7 +56,7 @@ function cribble_erathostene_julia_time(n::Int64)
 end
 
 # Résultats
-number = 10000
+number = 100000
 println("Julia :")
 time_julia = cribble_erathostene_julia_time(number)
 println("Python :")

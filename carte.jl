@@ -28,10 +28,12 @@ struct Card
 
 end
 
+"""
+Fonction de renvoie de la valeur numérique d'une Card c.
+"""
 function value(c::Card)
     return dico_card_value[c.rank]
 end
-
 
 export Card, value, suits, ranks, dico_card_value
 

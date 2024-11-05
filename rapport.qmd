@@ -70,13 +70,12 @@ Lundi 21/10 : Essai de nettoyer un peu le notebook Pluto. Recherche de moyen de 
 
 Jeudi 24/10 : On a fait une autre version de la fonction jeu, en divisant la fonction en plusieurs fonctions pour pouvoir juste les appeler pour faire run au jeu dans le terminal et dans Pluto.On a fix les boutton hit, stand, new  game dans Pluto avec Vizigram. Toujours un problème dans le Pluto : au début on pensait que c'était parce qu'on n'avait pas le temps de changer la valeur du bouton et donc on a pensé à mettre un sleep dans la boucle pour avoir le temps de cliquer sur les boutons pour changer la valeur de l'input MAIS en fait ça ne marche pas, on ne peut pas update les boutons tant que la fonction game() n'est pas terminée. Autre idée : un wait(condition) pour forcer à changer la valeur du bouton mais c'est un peu flou.
 
+Vacances Toussaint : Fini le benchmark de Python et Julia (appel avec le package PyCall). Boucle pour le jeu dans le terminal sans boucle while : on passe par une fonction récursive. Après avoir joué, on regarde si la partie est terminée, si ça n'est pas le cas alors on rejoue.
+
+Mardi 05/10 : 
+
 # Trucs à faire :
-- Faire le jeu terminal sans boucle while (next ????)
 - graphicstrial.jl -> Implémenter l'affichage des images dans le notebook.
 - Regarder comment on fait de la documentation en Julia.
 - Shiny pour l'affichage du jeu en R.
-- GameZero.
-Gary :
-- Finir le benchmark + Tester avec PythonCall dans Julia pour les tester en même temps pour différentes valeurs de n.
-Lancelot :
-- Interface graphique pluto pour le jeu en Julia
+

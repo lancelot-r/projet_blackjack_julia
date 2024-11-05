@@ -71,17 +71,29 @@ end
 """
 )
 
-# ╔═╡ cd0abcc6-3392-4684-aa1d-e34e50a3ad55
-function game()
-    blackjack_deck,player_hand,dealer_hand = GameDefinition.initialize_game()
-    end_game = false
-    GameDefinition.display_game(player_hand,dealer_hand,end_game)
-    while !end_game
-		sleep(5)
-        blackjack_deck,player_hand,dealer_hand,end_game = GameDefinition.input_player(svgelt,blackjack_deck,player_hand,dealer_hand)
-        GameDefinition.display_game(player_hand,dealer_hand,end_game)
+# ╔═╡ 187799fc-2c65-4ec2-9e0f-203eef76481b
+# Fonction pour chaque tour du jeu
+	function play_turn(blackjack_deck, player_hand, dealer_hand)
+	    player_choice = svgelt
+	    blackjack_deck, player_hand, dealer_hand, end_game = GameDefinition.input_player(player_choice, blackjack_deck, player_hand, dealer_hand)
+	    GameDefinition.display_game(player_hand, dealer_hand, end_game)
+	
+	    #appeler la fct play_turn si le jeu n'est pas game over
+	    if !end_game
+	        play_turn(blackjack_deck, player_hand, dealer_hand)
+	    end
 	end
-end
+
+# ╔═╡ cd0abcc6-3392-4684-aa1d-e34e50a3ad55
+
+	function game()
+	    
+	    blackjack_deck, player_hand, dealer_hand = GameDefinition.initialize_game()
+	    GameDefinition.display_game(player_hand, dealer_hand, false)
+	    play_turn(blackjack_deck, player_hand, dealer_hand)
+	end
+	
+	
 
 
 # ╔═╡ 764d8e6a-fc4c-4f7c-96cc-86d9cb8c2838
@@ -1138,9 +1150,10 @@ version = "17.4.0+2"
 # ╠═b35bf3e2-91d8-11ef-03d3-051c8bc091d7
 # ╠═e0e458ec-6233-4fe1-b4b4-a4c689f7ef37
 # ╠═cd0abcc6-3392-4684-aa1d-e34e50a3ad55
+# ╠═187799fc-2c65-4ec2-9e0f-203eef76481b
 # ╠═764d8e6a-fc4c-4f7c-96cc-86d9cb8c2838
 # ╠═8d9b286e-05a2-442a-abf5-de1d5e0b5784
-# ╠═0d7d848c-bbaa-4936-a456-c644d374380e
-# ╠═4a0f587d-2812-485e-9e5b-caf733dd5d69
+# ╟─0d7d848c-bbaa-4936-a456-c644d374380e
+# ╟─4a0f587d-2812-485e-9e5b-caf733dd5d69
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

@@ -6,6 +6,9 @@ include("deck.jl")
 using .DeckDefinitions
 # import Pluto; Pluto.run()
 
+"""
+Fonction d'initialisation du jeu : renvoie un Deck blackjack_deck, un Deck player_hand et un Deck dealer_hand.
+"""
 function initialize_game()
     # Instancier un deck de black jack
     blackjack_deck = DeckDefinitions.create_blackjack_deck(6)
@@ -24,6 +27,9 @@ function initialize_game()
     return blackjack_deck,player_hand,dealer_hand
 end
 
+"""
+Fonction d'affichage du statut de la partie dans le terminal
+"""
 function display_game(player_hand,dealer_hand,end_game)
     # On affiche la main du joueur
     display_hand(player_hand,"player")
@@ -52,6 +58,9 @@ function display_game(player_hand,dealer_hand,end_game)
     println("--------------------------------")
 end
 
+"""
+Fonction de dialogue dans le terminal avec le joueur pour sélectionner une action (hit ou stand)
+"""
 function input_terminal()
     println("Do you want to take a new card ? Press Y or N.")
     input = ""
@@ -65,10 +74,17 @@ function input_terminal()
     end
 end
 
+"""
+Boucle pour agir sur le jeu selon le choix du joueur.
+player_choice : string ("hit" ou "stand")
+blackjack_deck : Deck (pile du jeu)
+player_hand : Deck (main du joueur)
+dealer_hand : Deck (main du dealer)
+"""
 function input_player(player_choice,blackjack_deck,player_hand,dealer_hand)
     if (player_choice=="hit")
            take_a_card(blackjack_deck,player_hand)
-           return blackjack_deck,player_hand,dealer_hand,hand_value(player_hand)>21
+           return blackjack_deck,player_hand,dealer_hand,hand_value(player_hand)>=21
     elseif (player_choice=="stand")
         # Résolution pour le dealer : il tire jusqu'à atteindre un minimum de 17
         hand_value_dealer = hand_value(dealer_hand)

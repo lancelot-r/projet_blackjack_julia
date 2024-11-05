@@ -72,7 +72,7 @@ Jeudi 24/10 : On a fait une autre version de la fonction jeu, en divisant la fon
 
 Vacances Toussaint : Fini le benchmark de Python et Julia (appel avec le package PyCall). Boucle pour le jeu dans le terminal sans boucle while : on passe par une fonction récursive. Après avoir joué, on regarde si la partie est terminée, si ça n'est pas le cas alors on rejoue.
 
-Mardi 05/10 : 
+Mardi 05/10 : Ajout de la documentation sur toutes les fonctions (hors notebook).
 
 # Trucs à faire :
 - graphicstrial.jl -> Implémenter l'affichage des images dans le notebook.

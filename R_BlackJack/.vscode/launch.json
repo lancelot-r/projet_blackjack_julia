@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/lancelot/Documents/GitHub/projet_blackjack_julia/R_BlackJack",
+      "program": "/Users/lancelot/Documents/GitHub/projet_blackjack_julia/R_BlackJack/build/Debug/outDebug"
+    }
+  ]
+}

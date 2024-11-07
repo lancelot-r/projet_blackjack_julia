@@ -1,49 +1,16 @@
-# Projet Black Jack
-Noms : Lancelot Ravier, Danielle El Khoury, Garance Malnoë
-Idée de projet : Jeu de blackjack codé en Julia avec une interface graphique et en R avec Shiny.
+---
+title: "Journal de suivi du projet"
+format:
+  html:
+    code-fold: true
+    page-layout: full
+---
 
-# Déroulement d'une partie (sans les mises): 
-- 6 jeux de carte sont défini et mélangé (52 cartes, pas de joker)
-- Le joueur appuie sur un bouton pour démarrer la partie
-- Le programme distribue deux cartes retournées au joueur
-- Le programme distribue une carte retournée et une carte cachée a l'ordi
-- Les points sont calculés et affichés au joueur
-- Le joueur doit choisir entre laisser l'ordi jouer ou retirer une carte
-- *S'il décide de tirer une carte :
-    - Si le nombre de points est = 21, il a gagné et le jeu s'arrette
-    - Si le nombre de points est >21, il a perdu et le jeu s'arrette
-    - Si le nombre de points inferieur à 21, il peut décider de rejouer* ou de s'arretter**
-- **S'il décide de s'arretter, l'ordi va retourner la carte cachée :
-    - Si il tombe sur 21, l'ordi gagne
-    - Si son nombre de points est inferieur à 18, il retourne une carte
-    - Si son nombre de points est superieur à 18 (entre 18 et 21), il s'arrette
-    - Si son nombre de points est superieur à 21, le joueur gagne
-
-Points par carte : 
-    - 2 à 10 = valeur
-    - Valet, dame, roi = 10
-    - As =
-        - 11 si en ajoutant 11 à la main, le score <=21
-        - 1 si en ajoutant 11, le score dépasse 21
-
-# Structure du projet en Julia :
-- Fichier main.jl : fonction générale avec les boucles de jeu.
-- Fichier carte.jl : Pour définir la classe carte (attributs : String nom, Int valeur, image interface graphique)
-- Fichier deck.jl : Pour définir la classe deck (attributs : list de carte. Méthode : distribuer une carte (choisir une carte au hasard, la mettre dans la main de quelquu'un et l'enlever dans la liste de carte du deck))  Note : 6x52 cartes pour 1 deck de base.
-- Fichier jeu.jl : Pour définir la classe de jeu (attributs : deck, deux main_cartes (ordi + joueur))
-
-# Idées supplémentaires :
-    - Bet
-    - Plusieurs joueurs
-    - Timer
-
-# Journal
-
-Jeudi 26/09 : Choix du sujet, écriture des règles et idées supplémentaires et définition de la structure du projet en Julia (classes). Création des fichiers pour les différentes classes et tentative (infructueuse) de définition d'une classe en Julia avec la classe carte.
+Jeudi 26/09 : Nous avons réfléchi ensemble au projet que nous souhaitions faire. Nous sommes tombés d'accord sur le jeu du blackjack qui nous permet de travailler sur l'apprentissage de R et de Julia avec la possibilité de passer à un affichage graphique du jeu. Nous avons posé les règles du jeu et mis de côté quelques mécaniques telle que le bet, le fait d'avoir plusieurs joueurs et la présence d'un timer. Nous avons également discuté de la structure du projet en Julia, comment faire pour coder le jeu. Nous avons créé les fichiers carte.jl, deck.jl, jeu.jl, main.jl, et nous avons tenté - infructueusement - de définir une structure de carte.
 
 Mardi 01/10 : 
 Mise en commun de ce qu'a cherché Lancelot durant le weekend : fonction de création de carte, de deck de 52 cartes, de deck de blackjack et mélanger un deck. 
-Reflexions sur l'affichage : dash.jl, maki.jl, pluto.jl -> pour faire du html / javascript et avoir quelque chose d'intéractif. Question en cours sur les notions de simple vs multiple dispatching expliqué par Remy.
+Reflexions sur l'affichage : dash.jl, maki.jl, pluto.jl -> pour faire du html / javascript et avoir quelque chose d'intéractif. Question en cours sur les notions de simple vs multiple dispatching expliquées par Remy.
 Galères avec github : on choisit de partir sur un fonctionnement en branches ou en fork pour séparer notre travail.
 
 Mercredi 02/10 : Ré-adaptation des fonction de création de deck de blackjack et de mélange de deck. On a créé 2 fonctions shuffle et shuffle!  dans le but d'éviter de devoir recréer le deck de blackjack à chaque partie (dans une session), seulement au début de la session ce qui parait plus optimisé. 
@@ -68,16 +35,15 @@ On également travaillé sur un deuxième projet mettant en oeuvre le simple/mul
 
 Lundi 21/10 : Essai de nettoyer un peu le notebook Pluto. Recherche de moyen de debbug un notebook pluto mais ça n'est pas disponible directement dans Pluto et la librairie (https://github.com/disberd/PlutoVSCodeDebugger.jl) proposant de le faire dans VSCode n'a pas été update depuis plusieurs mois (presque 1an) donc pas moyen de faire le cheminement de penser du notebook sans faire du débug cochon. Première mise à jour du notebook pluto, sentiment qu'on est pas loin mais toujours soucis de mémoire de la valeur de player_action, à terminer.
 
-Jeudi 24/10 : faire une autre version de la fonction jeu, en divisant la fonction en plusieurs fonctions pour pouvoir juste les appeler pour faire run au jeu dans le terminal et dans Pluto.
-fixer les boutton hit, stand, new game dans Pluto
+Jeudi 24/10 : On a fait une autre version de la fonction jeu, en divisant la fonction en plusieurs fonctions pour pouvoir juste les appeler pour faire run au jeu dans le terminal et dans Pluto.On a fix les boutton hit, stand, new  game dans Pluto avec Vizigram. Toujours un problème dans le Pluto : au début on pensait que c'était parce qu'on n'avait pas le temps de changer la valeur du bouton et donc on a pensé à mettre un sleep dans la boucle pour avoir le temps de cliquer sur les boutons pour changer la valeur de l'input MAIS en fait ça ne marche pas, on ne peut pas update les boutons tant que la fonction game() n'est pas terminée. Autre idée : un wait(condition) pour forcer à changer la valeur du bouton mais c'est un peu flou.
+
+Vacances Toussaint : Fini le benchmark de Python et Julia (appel avec le package PyCall). Boucle pour le jeu dans le terminal sans boucle while : on passe par une fonction récursive. Après avoir joué, on regarde si la partie est terminée, si ça n'est pas le cas alors on rejoue.
+
+Mardi 05/10 : Ajout de la documentation sur toutes les fonctions (hors notebook). Petite correction sur la boucle de jeu pour la condition de fin.
 
 # Trucs à faire :
 - graphicstrial.jl -> Implémenter l'affichage des images dans le notebook.
 - Regarder comment on fait de la documentation en Julia.
-
-
 - Shiny pour l'affichage du jeu en R.
-Gary :
-- Finir le benchmark + Tester avec PythonCall dans Julia pour les tester en même temps pour différentes valeurs de n.
-Lancelot :
-- Interface graphique pluto pour le jeu en Julia
+- https://quarto.org/docs/publishing/github-pages.html
+

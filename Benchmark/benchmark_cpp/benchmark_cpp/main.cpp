@@ -6,9 +6,33 @@
 //
 
 #include <iostream>
+#include <vector>
+#include <chrono>
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    return 0;
+void crible_erathostene(int n) {
+    std::vector<bool> liste_boolean_prime(n, true);
+
+    for (int i = 1; i < n; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            if (liste_boolean_prime[j]) {
+                if ((j + 1) % (i + 1) == 0) {
+                    liste_boolean_prime[j] = false;
+                }
+            }
+        }
+    }
+
+    std::vector<int> index_primes;
+    for (int i = 0; i < n; ++i) {
+        if (liste_boolean_prime[i]) {
+            index_primes.push_back(i + 1);
+        }
+    }
+}
+
+int main() {
+    int number = 100000;
+
+        crible_erathostene(number);
+        return 0;
 }

@@ -124,7 +124,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#trucs-à-faire" id="toc-trucs-à-faire" class="nav-link active" data-scroll-target="#trucs-à-faire">Trucs à faire :</a></li>
+  <li><a href="#entrées-du-journal" id="toc-entrées-du-journal" class="nav-link active" data-scroll-target="#entrées-du-journal">Entrées du journal</a></li>
+  <li><a href="#choses-à-faire" id="toc-choses-à-faire" class="nav-link" data-scroll-target="#choses-à-faire">Choses à faire</a></li>
   </ul>
 </nav>
     </div>
@@ -150,6 +151,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="entrées-du-journal" class="level1">
+<h1>Entrées du journal</h1>
 <p>Jeudi 26/09 : Nous avons réfléchi ensemble au projet que nous souhaitions faire. Nous sommes tombés d’accord sur le jeu du blackjack qui nous permet de travailler sur l’apprentissage de R et de Julia avec la possibilité de passer à un affichage graphique du jeu. Nous avons posé les règles du jeu et mis de côté quelques mécaniques telle que le bet, le fait d’avoir plusieurs joueurs et la présence d’un timer. Nous avons également discuté de la structure du projet en Julia, comment faire pour coder le jeu. Nous avons créé les fichiers carte.jl, deck.jl, jeu.jl, main.jl, et nous avons tenté - infructueusement - de définir une structure de carte.</p>
 <p>Mardi 01/10 : Mise en commun de ce qu’a cherché Lancelot durant le weekend : fonction de création de carte, de deck de 52 cartes, de deck de blackjack et mélanger un deck. Reflexions sur l’affichage : dash.jl, maki.jl, pluto.jl -&gt; pour faire du html / javascript et avoir quelque chose d’intéractif. Question en cours sur les notions de simple vs multiple dispatching expliquées par Remy. Galères avec github : on choisit de partir sur un fonctionnement en branches ou en fork pour séparer notre travail.</p>
 <p>Mercredi 02/10 : Ré-adaptation des fonction de création de deck de blackjack et de mélange de deck. On a créé 2 fonctions shuffle et shuffle! dans le but d’éviter de devoir recréer le deck de blackjack à chaque partie (dans une session), seulement au début de la session ce qui parait plus optimisé. Problématique pour surcharger / étendre les fonction shuffle(!) déjà existantes dans la librairie Random, on l’importe explicitement. Creation des fonctions de calculs de la valeur d’une main et de tirer une carte. Première boucle de jeu à 1 joueur basique. On a appris comment demander à un utilisateur de rentrer quelque chose dans le terminal. Choix d’avoir une seule struct Deck à la fois pour le paquet de carte et pour les mains puisque les deux sont composés d’un vect de Carte.</p>
@@ -162,8 +165,9 @@ ul.task-list li input[type="checkbox"] {
 <p>Jeudi 24/10 : On a fait une autre version de la fonction jeu, en divisant la fonction en plusieurs fonctions pour pouvoir juste les appeler pour faire run au jeu dans le terminal et dans Pluto.On a fix les boutton hit, stand, new game dans Pluto avec Vizigram. Toujours un problème dans le Pluto : au début on pensait que c’était parce qu’on n’avait pas le temps de changer la valeur du bouton et donc on a pensé à mettre un sleep dans la boucle pour avoir le temps de cliquer sur les boutons pour changer la valeur de l’input MAIS en fait ça ne marche pas, on ne peut pas update les boutons tant que la fonction game() n’est pas terminée. Autre idée : un wait(condition) pour forcer à changer la valeur du bouton mais c’est un peu flou.</p>
 <p>Vacances Toussaint : Fini le benchmark de Python et Julia (appel avec le package PyCall). Boucle pour le jeu dans le terminal sans boucle while : on passe par une fonction récursive. Après avoir joué, on regarde si la partie est terminée, si ça n’est pas le cas alors on rejoue.</p>
 <p>Mardi 05/10 : Ajout de la documentation sur toutes les fonctions (hors notebook). Petite correction sur la boucle de jeu pour la condition de fin.</p>
-<section id="trucs-à-faire" class="level1">
-<h1>Trucs à faire :</h1>
+</section>
+<section id="choses-à-faire" class="level1">
+<h1>Choses à faire</h1>
 <ul>
 <li>graphicstrial.jl -&gt; Implémenter l’affichage des images dans le notebook.</li>
 <li>Regarder comment on fait de la documentation en Julia.</li>

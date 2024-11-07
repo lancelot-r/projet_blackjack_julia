@@ -1,8 +1,8 @@
 ---
 title: "Projet jeu du blackjack"
 ---
-
-# Déroulement d'une partie (sans les mises): 
+# Présentation du jeu
+## Déroulement d'une partie
 - 6 jeux de carte sont défini et mélangé (52 cartes, pas de joker)
 - Le joueur appuie sur un bouton pour démarrer la partie
 - Le programme distribue deux cartes retournées au joueur
@@ -19,20 +19,25 @@ title: "Projet jeu du blackjack"
     - Si son nombre de points est superieur à 18 (entre 18 et 21), il s'arrette
     - Si son nombre de points est superieur à 21, le joueur gagne
 
-# Points par carte : 
--  2 à 10 = valeur
-- Valet, dame, roi = 10
-- As =
-    - 11 si en ajoutant 11 à la main, le score <=21
-    - 1 si en ajoutant 11, le score dépasse 21
+## Valeurs des cartes
+-  2 à 10 -> valeur de la carte
+- Valet, dame, roi -> 10
+- As ->
+    - 11 si en ajoutant 11 à la main, le score est inférieur ou égal à 21.
+    - 1 si en ajoutant 11, le score dépasse 21.
 
-# Structure du projet en Julia :
+## Idées supplémentaires
+- Ajouter une fonctionnalité de pari : le joueur peut parier des jetons sur sa réussite.
+- Jouer à plusieurs.
+- Ajouter un timer.
+
+# Jeu dans le terminal
+## Structure du projet en Julia
 - Fichier carte.jl : Pour définir la classe carte (attributs : String nom, Int valeur, image interface graphique)
 - Fichier deck.jl : Pour définir la classe deck (attributs : list de carte. Méthode : distribuer une carte (choisir une carte au hasard, la mettre dans la main de quelquu'un et l'enlever dans la liste de carte du deck))  Note : 6x52 cartes pour 1 deck de base.
 - Fichier jeu.jl : Pour définir la classe de jeu (attributs : deck, deux main_cartes (ordi + joueur))
 - Fichier main.jl : fonction générale avec les boucles de jeu.
 
-# Idées supplémentaires :
-- Bet
-- Plusieurs joueurs
-- Timer
+# Jeu dans un notebook Pluto (tentative)
+Explication
+

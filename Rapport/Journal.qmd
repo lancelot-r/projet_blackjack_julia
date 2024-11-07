@@ -5,6 +5,7 @@ format:
     code-fold: true
     page-layout: full
 ---
+# Entrées du journal
 
 Jeudi 26/09 : Nous avons réfléchi ensemble au projet que nous souhaitions faire. Nous sommes tombés d'accord sur le jeu du blackjack qui nous permet de travailler sur l'apprentissage de R et de Julia avec la possibilité de passer à un affichage graphique du jeu. Nous avons posé les règles du jeu et mis de côté quelques mécaniques telle que le bet, le fait d'avoir plusieurs joueurs et la présence d'un timer. Nous avons également discuté de la structure du projet en Julia, comment faire pour coder le jeu. Nous avons créé les fichiers carte.jl, deck.jl, jeu.jl, main.jl, et nous avons tenté - infructueusement - de définir une structure de carte.
 
@@ -41,7 +42,7 @@ Vacances Toussaint : Fini le benchmark de Python et Julia (appel avec le package
 
 Mardi 05/10 : Ajout de la documentation sur toutes les fonctions (hors notebook). Petite correction sur la boucle de jeu pour la condition de fin.
 
-# Trucs à faire :
+# Choses à faire
 - graphicstrial.jl -> Implémenter l'affichage des images dans le notebook.
 - Regarder comment on fait de la documentation en Julia.
 - Shiny pour l'affichage du jeu en R.

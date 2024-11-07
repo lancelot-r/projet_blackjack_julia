@@ -17,7 +17,7 @@ website:
 
       - href : dispatching.qmd
         text : Dispatching
-        
+
       - href : journal.qmd
         text : Journal
 

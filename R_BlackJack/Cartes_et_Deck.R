@@ -73,8 +73,6 @@ create_blackjack_deck <- function(num_decks = 6) {
   return(concatene_decks(full_deck_list))
 }
 
-# fct pour mélanger le deck à sa place
-
 
 # fct pour calculer la valeur de la main
 hand_value <- function(hand) {
@@ -99,12 +97,12 @@ hand_value <- function(hand) {
   return(value)
 }
 
-# cft pour creer un main vide (un deck sans cartes)
+# fct pour creer un main vide (un deck sans cartes)
 create_empty_hand <- function() {
   return(Deck(list()))
 }
 
-# fct pour prendre un carte du deck et la donner au joueur ou dealer
+# fct pour prendre un carte du deck et la donner au joueur ou au dealer
 take_a_card <- function(pile, hand) {
   new_card <- pile$cards[[1]]
   pile$cards <- pile$cards[-1]
@@ -113,7 +111,7 @@ take_a_card <- function(pile, hand) {
 }
 
 
-# fct pour montere les cartes ds la main du joueur
+# fct pour montrer les cartes ds la main du joueur
 display_hand <- function(hand, name = "Player") {
   cat("The", name, "hand: ")
   for (card in hand$cards) {

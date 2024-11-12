@@ -11,7 +11,6 @@ using .GameDefinition
 Fonction d'initialisation d'une partie
 """
 function game()
-    
     blackjack_deck, player_hand, dealer_hand = GameDefinition.initialize_game()
     GameDefinition.display_game(player_hand, dealer_hand, false)
     play_turn(blackjack_deck, player_hand, dealer_hand)

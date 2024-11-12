@@ -31,8 +31,8 @@ Version du blackjack dans R: On a vu vraimant la difference entre R et Julia. Ju
 
 Mardi 15/10 : Corrections du code pour tout mettre en anglais. On a essayé de faire l'affichage avec Pluto et autres packages d'affichage. 
 
-Jeudi 17/10 : On a une ébauche (bugué) de notebook Pluto pour le jeu. On essaye donc de réparer ça parce que les boutons ne font pas ce que l'on veut (problème de réinitiailisation, que modifie le notebook en premier et donc est-ce que les modifications sont bien faites dans l'ordre). Possibilités : passer en markdown, nettoyer le code pour séparer les calculs et l'affichage en faisant des fonctions. On veut aussi implémenter le fait d'afficher des images dans le notebook.
-On également travaillé sur un deuxième projet mettant en oeuvre le simple/multiple dispatching (R/Julia) avec du calcul de dérivées.
+Jeudi 17/10 : On a une ébauche (bugué) de notebook Pluto pour le jeu. On essaye donc de réparer ça parce que les boutons ne font pas ce que l'on veut (problème de réinitialisation, que modifie le notebook en premier et donc est-ce que les modifications sont bien faites dans l'ordre). Possibilités : passer en markdown, nettoyer le code pour séparer les calculs et l'affichage en faisant des fonctions. On veut aussi implémenter le fait d'afficher des images dans le notebook.
+On a également travaillé sur un deuxième projet mettant en oeuvre le simple/multiple dispatching (R/Julia) avec du calcul de dérivées.
 
 Lundi 21/10 : Essai de nettoyer un peu le notebook Pluto. Recherche de moyen de debbug un notebook pluto mais ça n'est pas disponible directement dans Pluto et la librairie (https://github.com/disberd/PlutoVSCodeDebugger.jl) proposant de le faire dans VSCode n'a pas été update depuis plusieurs mois (presque 1an) donc pas moyen de faire le cheminement de penser du notebook sans faire du débug cochon. Première mise à jour du notebook pluto, sentiment qu'on est pas loin mais toujours soucis de mémoire de la valeur de player_action, à terminer.
 

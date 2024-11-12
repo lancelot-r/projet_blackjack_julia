@@ -36,8 +36,30 @@ title: "Projet jeu du blackjack"
 - Fichier carte.jl : Pour définir la classe carte (attributs : String nom, Int valeur, image interface graphique)
 - Fichier deck.jl : Pour définir la classe deck (attributs : list de carte. Méthode : distribuer une carte (choisir une carte au hasard, la mettre dans la main de quelquu'un et l'enlever dans la liste de carte du deck))  Note : 6x52 cartes pour 1 deck de base.
 - Fichier jeu.jl : Pour définir la classe de jeu (attributs : deck, deux main_cartes (ordi + joueur))
-- Fichier main.jl : fonction générale avec les boucles de jeu.
+- Fichier main_terminal.jl : fonction générale avec les boucles de jeu.
 
 # Jeu dans un notebook Pluto (tentative)
-Explication
+- Création des modules dans les fichiers Julia pour pouvoir les appeler dans Pluto
+- Réussir à créer des boutons ("New Game", "Hit", "Stand")et d'afficher le jeu dans un terminal Julia avec interaction des boutons
+- Faute d'interaction du jeu avec les boutons et découvrir que la réinitialisation d'une variable dans Pluto est impossible à faire car il a considère comme nouvelle définiton de la variable
+- Essai de nettoyer un peu le notebook Pluto. Recherche de moyen de debbug un notebook pluto mais ça n'est pas disponible directement dans Pluto et la librairie (https://github.com/disberd/PlutoVSCodeDebugger.jl) proposant de le faire dans VSCode n'a pas été mis à jour depuis plusieurs mois (presque 1an) donc pas moyen de faire le cheminement de penser du notebook sans faire du débug. 
+- Décider d'archiver le premier essai du jeu qui consistait, dans le fichier jeu.jl, d'une fonction jeu qui contient toutes les étapes du jeu, et de créer des fonctions pour chaque étape (initialiser le jeu, affichage du statut de la partie, saisir la réponse du joueur dans le terminal) et une boucle pour agir sur le jeu selon le choix du joueur pour pouvoir juste les appeler pour faire run au jeu dans le terminal et dans Pluto. Puis, création d'un fichier main_terminal.jl avec la fontion "game" appelant les fonctions créées dans jeu.jl pour l'exécution du jeu.
 
+- Échec de l'interaction dans Pluto: au début on pensait que c'était parce qu'on n'avait pas le temps de changer la valeur du bouton et donc on a pensé à mettre un sleep dans la boucle pour avoir le temps de cliquer sur les boutons pour changer la valeur de l'input mais aussi on rencontre un échec, on ne peut pas update les boutons tant que la fonction game() n'est pas terminée. 
+- Corriger les bouton hit, stand, new  game dans Pluto avec Vizigram.
+- Changer la fonction "game" pour ne plus contenir une loop "while".
+- Le problème dans Pluto persiste
+
+
+
+# Jeu dans R
+- Structure du code un peu similaire à Julia
+- La difference la plus flagrante: Julia ne change pas la classe des variables en appliquant des fonction, alors que dans R, ça change. Un  exemple sur cela se voit dans la fonction sample change la classe deck en une classe list.
+- Solution: on impose la classe en appliquant la fonction, par exemple: Deck(sample(...)) ce qui rend une classe deck et pas list.
+
+## Jeu dans le terminal
+- Fichier Cartes_et_Deck.R : Pour définir les définition de cartes et de deck, et les fonctions à utiliser et à appeler dans le jeu.
+- Fichier le_jeu.R : Pour définir un fonction pour initialiser le jeu, une autre pour afficher le statut de la partie et une pour saisir la réponse du joueur dans le terminal. Définir aussi la fonction jeu qui appelle les autres fontions pour faire run au jeu.
+
+## Jeu avec RShiny
+- Fichier shinyapp.r : En utilisant comme source le fichier "Cartes_et_Deck.R", initialiser le jeu, décrire un path pour les images à utiliser dans le jeu, créer des boutons pour les actions du joueur ("New Game", "Hit", "Stand"), afficher une console intéractive pour pouvoir jouer.

@@ -45,7 +45,7 @@ if(end_game){
   # Comparaison et decision du gagnant
   if (hand_value_player <= 21 && (hand_value_dealer > 21 || hand_value_player > hand_value_dealer)) {
     cat("You won!\n")
-  } else if (hand_value_dealer <= 21 && hand_value_dealer > hand_value_player) {
+  } else if ((hand_value_dealer <= 21 && hand_value_dealer > hand_value_player) || hand_value_player > 21) {
     cat("The dealer won...\n")
   } else {
     cat("It's a draw.\n")

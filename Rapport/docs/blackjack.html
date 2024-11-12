@@ -105,7 +105,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Dispatching</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./journal.html"> 
+    <a class="nav-link" href="./journal.qmd"> 
 <span class="menu-text">Journal</span></a>
   </li>  
 </ul>
@@ -135,6 +135,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#structure-du-projet-en-julia" id="toc-structure-du-projet-en-julia" class="nav-link" data-scroll-target="#structure-du-projet-en-julia">Structure du projet en Julia</a></li>
   </ul></li>
   <li><a href="#jeu-dans-un-notebook-pluto-tentative" id="toc-jeu-dans-un-notebook-pluto-tentative" class="nav-link" data-scroll-target="#jeu-dans-un-notebook-pluto-tentative">Jeu dans un notebook Pluto (tentative)</a></li>
+  <li><a href="#jeu-dans-r" id="toc-jeu-dans-r" class="nav-link" data-scroll-target="#jeu-dans-r">Jeu dans R</a>
+  <ul class="collapse">
+  <li><a href="#jeu-dans-le-terminal-1" id="toc-jeu-dans-le-terminal-1" class="nav-link" data-scroll-target="#jeu-dans-le-terminal-1">Jeu dans le terminal</a></li>
+  <li><a href="#jeu-avec-rshiny" id="toc-jeu-avec-rshiny" class="nav-link" data-scroll-target="#jeu-avec-rshiny">Jeu avec RShiny</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -215,15 +220,47 @@ ul.task-list li input[type="checkbox"] {
 <li>Fichier carte.jl : Pour définir la classe carte (attributs : String nom, Int valeur, image interface graphique)</li>
 <li>Fichier deck.jl : Pour définir la classe deck (attributs : list de carte. Méthode : distribuer une carte (choisir une carte au hasard, la mettre dans la main de quelquu’un et l’enlever dans la liste de carte du deck)) Note : 6x52 cartes pour 1 deck de base.</li>
 <li>Fichier jeu.jl : Pour définir la classe de jeu (attributs : deck, deux main_cartes (ordi + joueur))</li>
-<li>Fichier main.jl : fonction générale avec les boucles de jeu.</li>
+<li>Fichier main_terminal.jl : fonction générale avec les boucles de jeu.</li>
 </ul>
 </section>
 </section>
 <section id="jeu-dans-un-notebook-pluto-tentative" class="level1">
 <h1>Jeu dans un notebook Pluto (tentative)</h1>
+<ul>
+<li><p>Création des modules dans les fichiers Julia pour pouvoir les appeler dans Pluto</p></li>
+<li><p>Réussir à créer des boutons (“New Game”, “Hit”, “Stand”)et d’afficher le jeu dans un terminal Julia avec interaction des boutons</p></li>
+<li><p>Faute d’interaction du jeu avec les boutons et découvrir que la réinitialisation d’une variable dans Pluto est impossible à faire car il a considère comme nouvelle définiton de la variable</p></li>
+<li><p>Essai de nettoyer un peu le notebook Pluto. Recherche de moyen de debbug un notebook pluto mais ça n’est pas disponible directement dans Pluto et la librairie (https://github.com/disberd/PlutoVSCodeDebugger.jl) proposant de le faire dans VSCode n’a pas été mis à jour depuis plusieurs mois (presque 1an) donc pas moyen de faire le cheminement de penser du notebook sans faire du débug.</p></li>
+<li><p>Décider d’archiver le premier essai du jeu qui consistait, dans le fichier jeu.jl, d’une fonction jeu qui contient toutes les étapes du jeu, et de créer des fonctions pour chaque étape (initialiser le jeu, affichage du statut de la partie, saisir la réponse du joueur dans le terminal) et une boucle pour agir sur le jeu selon le choix du joueur pour pouvoir juste les appeler pour faire run au jeu dans le terminal et dans Pluto. Puis, création d’un fichier main_terminal.jl avec la fontion “game” appelant les fonctions créées dans jeu.jl pour l’exécution du jeu.</p></li>
+<li><p>Échec de l’interaction dans Pluto: au début on pensait que c’était parce qu’on n’avait pas le temps de changer la valeur du bouton et donc on a pensé à mettre un sleep dans la boucle pour avoir le temps de cliquer sur les boutons pour changer la valeur de l’input mais aussi on rencontre un échec, on ne peut pas update les boutons tant que la fonction game() n’est pas terminée.</p></li>
+<li><p>Corriger les bouton hit, stand, new game dans Pluto avec Vizigram.</p></li>
+<li><p>Changer la fonction “game” pour ne plus contenir une loop “while”.</p></li>
+<li><p>Le problème dans Pluto persiste</p></li>
+</ul>
 <p>Explication</p>
+</section>
+<section id="jeu-dans-r" class="level1">
+<h1>Jeu dans R</h1>
+<ul>
+<li>Structure du code un peu similaire à Julia</li>
+<li>La difference la plus flagrante: Julia ne change pas la classe des variables en appliquant des fonction, alors que dans R, ça change. Un exemple sur cela se voit dans la fonction sample change la classe deck en une classe list.</li>
+<li>Solution: on impose la classe en appliquant la fonction, par exemple: Deck(sample(…)) ce qui rend une classe deck et pas list.</li>
+</ul>
+<section id="jeu-dans-le-terminal-1" class="level2">
+<h2 class="anchored" data-anchor-id="jeu-dans-le-terminal-1">Jeu dans le terminal</h2>
+<ul>
+<li>Fichier Cartes_et_Deck.R : Pour définir les définition de cartes et de deck, et les fonctions à utiliser et à appeler dans le jeu.</li>
+<li>Fichier le_jeu.R : Pour définir un fonction pour initialiser le jeu, une autre pour afficher le statut de la partie et une pour saisir la réponse du joueur dans le terminal. Définir aussi la fonction jeu qui appelle les autres fontions pour faire run au jeu.</li>
+</ul>
+</section>
+<section id="jeu-avec-rshiny" class="level2">
+<h2 class="anchored" data-anchor-id="jeu-avec-rshiny">Jeu avec RShiny</h2>
+<ul>
+<li>Fichier shinyapp.r : En utilisant comme source le fichier “Cartes_et_Deck.R”, initialiser le jeu, décrire un path pour les images à utiliser dans le jeu, créer des boutons pour les actions du joueur (“New Game”, “Hit”, “Stand”), afficher une console intéractive pour pouvoir jouer.</li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

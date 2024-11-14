@@ -1,3 +1,15 @@
 ---
-title: "Illustration du simple et multiple dispatching : calculateur de dérivées."
+title: "Illustration du simple et multiple dispatching : calculateur de q"
 ---
+# Principe
+Explication idée
+
+# Code
+
+## Code R
+
+
+## Julia
+
+
+# Remarques

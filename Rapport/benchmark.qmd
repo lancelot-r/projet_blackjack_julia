@@ -1,3 +1,13 @@
 ---
 title: "Benchmark entre Python, Julia et C++"
 ---
+# Code
+
+## Python
+
+## Julia
+
+## C++
+Image du code parce que C++ n'est pas supporté par Quarto.
+
+# Comparaison

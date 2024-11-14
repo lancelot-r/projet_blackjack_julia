@@ -7,10 +7,12 @@ Bienvenue sur notre rapport !
 
 Nous avons travaillé sur différents projets qui ont chacun une page dédiée :
 
-- Un jeu de blackjack en Julia, Python et R jouable dans le terminal et des tentatives d'affichage graphique.
+- Un [jeu de blackjack](blackjack.qmd) en Julia, Python et R jouable dans le terminal et des tentatives d'affichage graphique.
 
-- Un benchmark entre Julia, Python et C++ à partir du cribble d'Erathostene.
+- Un [calculateur de dérivée](dispatching.qmd) en Julia et R, pour mettre en évidence l'utilité du multiple-dispatching de Julia.
 
-- Un calculateur de dérivée en Julia et R, pour mettre en évidence l'utilité du multiple-dispatching de Julia.
+- Un [benchmark](benchmark.qmd) entre Julia, Python et C++ à partir du cribble d'Erathostene.
 
-Pour mieux comprendre le processus de création, la page journal regroupe nos entrées tout au long du projet.
+
+
+Pour mieux comprendre le processus de création, la page [journal](journal.qmd) regroupe nos réflexions tout au long du projet.

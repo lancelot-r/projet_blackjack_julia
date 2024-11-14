@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Rapport projet</title>
+<title>Projet jeu du blackjack – Rapport projet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -89,11 +89,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Acceuil</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blackjack.html"> 
+    <a class="nav-link active" href="./blackjack.html" aria-current="page"> 
 <span class="menu-text">Blackjack</span></a>
   </li>  
   <li class="nav-item">
@@ -119,15 +119,36 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#présentation-du-jeu" id="toc-présentation-du-jeu" class="nav-link active" data-scroll-target="#présentation-du-jeu">Présentation du jeu</a>
+  <ul class="collapse">
+  <li><a href="#déroulement-dune-partie" id="toc-déroulement-dune-partie" class="nav-link" data-scroll-target="#déroulement-dune-partie">Déroulement d’une partie</a></li>
+  <li><a href="#valeurs-des-cartes" id="toc-valeurs-des-cartes" class="nav-link" data-scroll-target="#valeurs-des-cartes">Valeurs des cartes</a></li>
+  <li><a href="#idées-supplémentaires" id="toc-idées-supplémentaires" class="nav-link" data-scroll-target="#idées-supplémentaires">Idées supplémentaires</a></li>
+  </ul></li>
+  <li><a href="#jeu-dans-le-terminal" id="toc-jeu-dans-le-terminal" class="nav-link" data-scroll-target="#jeu-dans-le-terminal">Jeu dans le terminal</a>
+  <ul class="collapse">
+  <li><a href="#structure-du-projet-en-julia" id="toc-structure-du-projet-en-julia" class="nav-link" data-scroll-target="#structure-du-projet-en-julia">Structure du projet en Julia</a></li>
+  </ul></li>
+  <li><a href="#jeu-dans-un-notebook-pluto-tentative" id="toc-jeu-dans-un-notebook-pluto-tentative" class="nav-link" data-scroll-target="#jeu-dans-un-notebook-pluto-tentative">Jeu dans un notebook Pluto (tentative)</a></li>
+  <li><a href="#jeu-dans-r" id="toc-jeu-dans-r" class="nav-link" data-scroll-target="#jeu-dans-r">Jeu dans R</a>
+  <ul class="collapse">
+  <li><a href="#jeu-dans-le-terminal-1" id="toc-jeu-dans-le-terminal-1" class="nav-link" data-scroll-target="#jeu-dans-le-terminal-1">Jeu dans le terminal</a></li>
+  <li><a href="#jeu-avec-rshiny" id="toc-jeu-avec-rshiny" class="nav-link" data-scroll-target="#jeu-avec-rshiny">Jeu avec RShiny</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Rapport projet</h1>
+<h1 class="title">Projet jeu du blackjack</h1>
 </div>
 
 
@@ -144,17 +165,103 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Noms : Lancelot Ravier, Danielle El Khoury, Garance Malnoë</p>
-<p>Bienvenue sur notre rapport !</p>
-<p>Nous avons travaillé sur différents projets qui ont chacun une page dédiée :</p>
+<section id="présentation-du-jeu" class="level1">
+<h1>Présentation du jeu</h1>
+<section id="déroulement-dune-partie" class="level2">
+<h2 class="anchored" data-anchor-id="déroulement-dune-partie">Déroulement d’une partie</h2>
 <ul>
-<li><p>Un <a href="./blackjack.html">jeu de blackjack</a> en Julia, Python et R jouable dans le terminal et des tentatives d’affichage graphique.</p></li>
-<li><p>Un <a href="./dispatching.html">calculateur de dérivée</a> en Julia et R, pour mettre en évidence l’utilité du multiple-dispatching de Julia.</p></li>
-<li><p>Un <a href="./benchmark.html">benchmark</a> entre Julia, Python et C++ à partir du cribble d’Erathostene.</p></li>
+<li>6 jeux de carte sont défini et mélangé (52 cartes, pas de joker)</li>
+<li>Le joueur appuie sur un bouton pour démarrer la partie</li>
+<li>Le programme distribue deux cartes retournées au joueur</li>
+<li>Le programme distribue une carte retournée et une carte cachée a l’ordi</li>
+<li>Les points sont calculés et affichés au joueur</li>
+<li>Le joueur doit choisir entre laisser l’ordi jouer ou retirer une carte</li>
+<li>*S’il décide de tirer une carte :
+<ul>
+<li>Si le nombre de points est = 21, il a gagné et le jeu s’arrette</li>
+<li>Si le nombre de points est &gt;21, il a perdu et le jeu s’arrette</li>
+<li>Si le nombre de points inferieur à 21, il peut décider de rejouer* ou de s’arretter**</li>
+</ul></li>
+<li>**S’il décide de s’arretter, l’ordi va retourner la carte cachée :
+<ul>
+<li>Si il tombe sur 21, l’ordi gagne</li>
+<li>Si son nombre de points est inferieur à 18, il retourne une carte</li>
+<li>Si son nombre de points est superieur à 18 (entre 18 et 21), il s’arrette</li>
+<li>Si son nombre de points est superieur à 21, le joueur gagne</li>
+</ul></li>
 </ul>
-<p>Pour mieux comprendre le processus de création, la page <a href="journal.qmd">journal</a> regroupe nos réflexions tout au long du projet.</p>
+</section>
+<section id="valeurs-des-cartes" class="level2">
+<h2 class="anchored" data-anchor-id="valeurs-des-cartes">Valeurs des cartes</h2>
+<ul>
+<li>2 à 10 -&gt; valeur de la carte</li>
+<li>Valet, dame, roi -&gt; 10</li>
+<li>As -&gt;
+<ul>
+<li>11 si en ajoutant 11 à la main, le score est inférieur ou égal à 21.</li>
+<li>1 si en ajoutant 11, le score dépasse 21.</li>
+</ul></li>
+</ul>
+</section>
+<section id="idées-supplémentaires" class="level2">
+<h2 class="anchored" data-anchor-id="idées-supplémentaires">Idées supplémentaires</h2>
+<ul>
+<li>Ajouter une fonctionnalité de pari : le joueur peut parier des jetons sur sa réussite.</li>
+<li>Jouer à plusieurs.</li>
+<li>Ajouter un timer.</li>
+</ul>
+</section>
+</section>
+<section id="jeu-dans-le-terminal" class="level1">
+<h1>Jeu dans le terminal</h1>
+<section id="structure-du-projet-en-julia" class="level2">
+<h2 class="anchored" data-anchor-id="structure-du-projet-en-julia">Structure du projet en Julia</h2>
+<ul>
+<li>Fichier carte.jl : Pour définir la classe carte (attributs : String nom, Int valeur, image interface graphique)</li>
+<li>Fichier deck.jl : Pour définir la classe deck (attributs : list de carte. Méthode : distribuer une carte (choisir une carte au hasard, la mettre dans la main de quelquu’un et l’enlever dans la liste de carte du deck)) Note : 6x52 cartes pour 1 deck de base.</li>
+<li>Fichier jeu.jl : Pour définir la classe de jeu (attributs : deck, deux main_cartes (ordi + joueur))</li>
+<li>Fichier main_terminal.jl : fonction générale avec les boucles de jeu.</li>
+</ul>
+</section>
+</section>
+<section id="jeu-dans-un-notebook-pluto-tentative" class="level1">
+<h1>Jeu dans un notebook Pluto (tentative)</h1>
+<ul>
+<li><p>Création des modules dans les fichiers Julia pour pouvoir les appeler dans Pluto</p></li>
+<li><p>Réussir à créer des boutons (“New Game”, “Hit”, “Stand”)et d’afficher le jeu dans un terminal Julia avec interaction des boutons</p></li>
+<li><p>Faute d’interaction du jeu avec les boutons et découvrir que la réinitialisation d’une variable dans Pluto est impossible à faire car il a considère comme nouvelle définiton de la variable</p></li>
+<li><p>Essai de nettoyer un peu le notebook Pluto. Recherche de moyen de debbug un notebook pluto mais ça n’est pas disponible directement dans Pluto et la librairie (https://github.com/disberd/PlutoVSCodeDebugger.jl) proposant de le faire dans VSCode n’a pas été mis à jour depuis plusieurs mois (presque 1an) donc pas moyen de faire le cheminement de penser du notebook sans faire du débug.</p></li>
+<li><p>Décider d’archiver le premier essai du jeu qui consistait, dans le fichier jeu.jl, d’une fonction jeu qui contient toutes les étapes du jeu, et de créer des fonctions pour chaque étape (initialiser le jeu, affichage du statut de la partie, saisir la réponse du joueur dans le terminal) et une boucle pour agir sur le jeu selon le choix du joueur pour pouvoir juste les appeler pour faire run au jeu dans le terminal et dans Pluto. Puis, création d’un fichier main_terminal.jl avec la fontion “game” appelant les fonctions créées dans jeu.jl pour l’exécution du jeu.</p></li>
+<li><p>Échec de l’interaction dans Pluto: au début on pensait que c’était parce qu’on n’avait pas le temps de changer la valeur du bouton et donc on a pensé à mettre un sleep dans la boucle pour avoir le temps de cliquer sur les boutons pour changer la valeur de l’input mais aussi on rencontre un échec, on ne peut pas update les boutons tant que la fonction game() n’est pas terminée.</p></li>
+<li><p>Corriger les bouton hit, stand, new game dans Pluto avec Vizigram.</p></li>
+<li><p>Changer la fonction “game” pour ne plus contenir une loop “while”.</p></li>
+<li><p>Le problème dans Pluto persiste</p></li>
+</ul>
+<p>Explication</p>
+</section>
+<section id="jeu-dans-r" class="level1">
+<h1>Jeu dans R</h1>
+<ul>
+<li>Structure du code un peu similaire à Julia</li>
+<li>La difference la plus flagrante: Julia ne change pas la classe des variables en appliquant des fonction, alors que dans R, ça change. Un exemple sur cela se voit dans la fonction sample change la classe deck en une classe list.</li>
+<li>Solution: on impose la classe en appliquant la fonction, par exemple: Deck(sample(…)) ce qui rend une classe deck et pas list.</li>
+</ul>
+<section id="jeu-dans-le-terminal-1" class="level2">
+<h2 class="anchored" data-anchor-id="jeu-dans-le-terminal-1">Jeu dans le terminal</h2>
+<ul>
+<li>Fichier Cartes_et_Deck.R : Pour définir les définition de cartes et de deck, et les fonctions à utiliser et à appeler dans le jeu.</li>
+<li>Fichier le_jeu.R : Pour définir un fonction pour initialiser le jeu, une autre pour afficher le statut de la partie et une pour saisir la réponse du joueur dans le terminal. Définir aussi la fonction jeu qui appelle les autres fontions pour faire run au jeu.</li>
+</ul>
+</section>
+<section id="jeu-avec-rshiny" class="level2">
+<h2 class="anchored" data-anchor-id="jeu-avec-rshiny">Jeu avec RShiny</h2>
+<ul>
+<li>Fichier shinyapp.r : En utilisant comme source le fichier “Cartes_et_Deck.R”, initialiser le jeu, décrire un path pour les images à utiliser dans le jeu, créer des boutons pour les actions du joueur (“New Game”, “Hit”, “Stand”), afficher une console intéractive pour pouvoir jouer.</li>
+</ul>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

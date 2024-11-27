@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.0
+# v0.19.46
 
 using Markdown
 using InteractiveUtils
@@ -25,16 +25,6 @@ using PlutoUI
 
 # ╔═╡ 24c77d20-b10a-43e3-a013-04d296f44abc
 using Random
-
-# ╔═╡ f3a61e2f-06f6-40e5-ba49-71c5040aed52
-begin
-    include("carte.jl")
-    using .CardDefinitions
-    include("deck.jl")
-    using .DeckDefinitions
-    include("jeu.jl")
-    using .GameDefinition
-end
 
 # ╔═╡ 4c21765e-f44e-47c3-9bd8-df5437bdb71a
 #Importation des bibliothèques
@@ -167,19 +157,7 @@ if @isdefined(game_state) == true
 	display_game()
 end
 
-# ╔═╡ e14aa144-9fb8-400d-b0f5-ca38d5a797f9
-# Mise à jour de la valeur de game_state[:last_player_action] selon le choix fait par le joueur.
-begin
-if player_action == "hit"
-		update_game("hit")
-		player_action = nothing
-elseif player_action == "stand"
-	update_game("stand")
-	player_action = nothing
-end
-end
-
-# ╔═╡ 207fe6a9-49cb-455d-a290-2ce04772bb8a
+# ╔═╡ 1f8b5b36-444a-4e38-8871-0bfec9fe432c
 begin
 	@bind player_action @htl("""
 		<div>
@@ -203,9 +181,6 @@ begin
 		</script>
 		</div>
 		""")
-
-	# Lier la mise_à_jour de player_action à celle de game_state[:last_player_action]
-	
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -894,7 +869,6 @@ version = "3.5.0+0"
 # ╠═6b11679a-8d3b-4844-9948-f842b5c131e8
 # ╠═24c77d20-b10a-43e3-a013-04d296f44abc
 # ╠═7538b30e-7b40-4285-91f9-a092b7836c24
-# ╠═f3a61e2f-06f6-40e5-ba49-71c5040aed52
 # ╠═f0b16815-c0b9-4fb9-a02e-a50f617e8e1b
 # ╠═cf5e28e7-d3f0-446f-8859-3016f9940b76
 # ╠═258f99e8-fb45-42d8-83fc-409b5812f7fd
@@ -903,8 +877,7 @@ version = "3.5.0+0"
 # ╠═deb75b83-b747-4e5b-8779-96e2ea630688
 # ╠═50857b6c-4515-4818-a7e6-7e098455d50e
 # ╟─cf6640d3-5f6f-4d19-99e6-8ea58f4ad798
-# ╟─207fe6a9-49cb-455d-a290-2ce04772bb8a
-# ╠═e14aa144-9fb8-400d-b0f5-ca38d5a797f9
 # ╠═d9362b77-20a8-4b84-929b-e90c9225dc81
+# ╠═1f8b5b36-444a-4e38-8871-0bfec9fe432c
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
